@@ -23,6 +23,8 @@ pt.tags.push
               placement: attr.popoverPlacement or 'right'
             $el.data 'ptPopoverLoaded', false
             $el.popover 'show' if $el.data 'ptPopoverFocused'
+      else
+        $el.popover 'show' if $el.data 'ptPopoverFocused'
 
 pt.tags.push
   popover:
