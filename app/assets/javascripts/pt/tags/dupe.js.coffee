@@ -10,10 +10,6 @@ tags =
     event: 'bind'
     callback: removeFirstButton
 
-  'page:change':
-    event: 'bind'
-    callback: removeFirstButton
-
   dupeAdd:
     event: 'click'
     callback: (event) ->

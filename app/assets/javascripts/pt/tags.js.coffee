@@ -20,6 +20,10 @@ pt['init'] = ->
       switch event
         when 'bind'
           $(document).bind name, callback
+
+          # Makes it work with turbolinks
+          if name == 'ready'
+            $(document).bind 'page:load', callback
         else
           $(document).on event, "[pt-#{name}]", callback
 pt.init()
