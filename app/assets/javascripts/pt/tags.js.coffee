@@ -1,6 +1,7 @@
 #= require pt/log
 #= require pt/bootbox
 #= require pt/jquery.maskedinput
+#= require pt/jquery.form
 #= require pt/bootstrap-datetimepicker
 #= require twitter/bootstrap
 #= require pt/attr
