@@ -12,10 +12,10 @@ module Powertools::WhoDidIt
   private
 
   def add_creator
-    self.creator = User.current
+    self.creator = User.current if User.current
   end
 
   def add_updater
-    self.updater = User.current
+    self.updater = User.current if User.current
   end
 end
