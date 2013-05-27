@@ -12,7 +12,7 @@ module Powertools::WhoDidIt
   private
 
   def add_creator
-    self.creator = User.current if User.current
+    self.creator = User.current if(!self.creator_id && User.current)
   end
 
   def add_updater
