@@ -17,6 +17,7 @@ class NavPresenter < BasePresenter
 
     if items
       items.map! { |item| init_item item}
+      items.compact # remove nil elements
     else
       []
     end
@@ -25,12 +26,12 @@ class NavPresenter < BasePresenter
   private
 
   def init_item item
-    return if(item[:permission].present? && !item[:permission])
+    return if(item.has_key?(:permission) && !item[:permission])
     item['is_active?'] = check_if_active item
     item = OpenStruct.new item
     if item.respond_to? :children
       item.children.map! do |child_item|
-        next if(child_item[:permission].present? && !child_item[:permission])
+        next if(child_item.has_key?(:permission) && !child_item[:permission])
         child_item[:parent] = item
         init_item child_item
       end
