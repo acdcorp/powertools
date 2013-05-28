@@ -9,7 +9,7 @@ pt.tags.push
 
       unless $el.data 'ptDatetimeLoaded'
         $el.datetimepicker
-          format: attr.datetime or 'mm/dd/yyyy - HH:ii P'
+          format: attr.datetime or 'mm/dd/yyyy at HH:ii P'
           showMeridian: true
           autoclose: true
 
