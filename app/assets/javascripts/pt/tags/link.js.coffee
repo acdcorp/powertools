@@ -18,4 +18,5 @@ pt.tags.push
           url: url
           success: (html) ->
             $container.html html
+            $(document).trigger 'page:change'
             $el.data 'ptLinkLoading', false
