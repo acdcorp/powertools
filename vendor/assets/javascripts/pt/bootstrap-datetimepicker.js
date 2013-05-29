@@ -304,6 +304,19 @@
 			}
 		},
 
+        setFormat: function(format) {
+            this.format = DPGlobal.parseFormat(format, this.formatType);
+            var element;
+            if (this.isInput) {
+                element = this.element;
+            } else if (this.component){
+                element = this.element.find('input');
+            }
+            if (element && element.val()) {
+                this.setValue();
+            }
+        },
+
 		setValue: function() {
 			var formatted = this.getFormattedDate();
 			if (!this.isInput) {

@@ -13,6 +13,7 @@ module Powertools::WhoDidIt
 
   def add_creator
     self.creator = User.current if(!self.creator_id && User.current)
+    self.creator_id = ENV["SYSTEM_USER_ID"] if(!self.creator_id && ENV["SYSTEM_USER_ID"].present?)
   end
 
   def add_updater
