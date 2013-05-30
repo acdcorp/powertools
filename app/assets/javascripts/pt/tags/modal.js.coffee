@@ -11,7 +11,7 @@ pt.tags.push
 
       if Object.has attr, 'modalSave'
         buttons.push
-          label: attr.modalSave or 'Save'
+          label: 'Save'
           # id: 'pt-modal-save'
           class: 'btn-primary'
           callback: ->
