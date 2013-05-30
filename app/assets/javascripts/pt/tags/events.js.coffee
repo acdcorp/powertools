@@ -14,6 +14,9 @@ for event in ['mouseover', 'mouseout']
 
         data = attr[eventName.camelize(false)].dasherize().split('-')
 
+        loadedName       = "#{eventName}Loaded"
+        oppositeBindName = "#{eventName}OppositeBind"
+
         switch extraMethod
           when 'find'
             [method, action, filter] = data
@@ -21,4 +24,5 @@ for event in ['mouseover', 'mouseout']
           else
             [method, action] = data
             $el[method](action)
+
     pt.tags.push newEvent
