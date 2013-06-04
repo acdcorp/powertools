@@ -3,10 +3,12 @@ module Powertools::WhoDidIt
 
   included do
     belongs_to :creator, class_name: 'User'
-    belongs_to :updater, class_name: 'User'
-
     before_create :add_creator
-    before_update :add_updater
+
+    if self.column_names.include? :updater_id
+      belongs_to :updater, class_name: 'User'
+      before_update :add_updater
+    end
   end
 
   private

@@ -2,10 +2,10 @@ module Powertools::AjaxFlash
   extend ActiveSupport::Concern
 
   included do
-    after_filter :flash_to_headers
+    after_filter :pt_flash_to_headers
   end
 
-  def flash_to_headers
+  def pt_flash_to_headers
     if request.xhr?
       # Avoiding XSS injections via flash
       flash_json = Hash[flash.map{|k,v| [k,ERB::Util.h(v)] }].to_json
