@@ -1,4 +1,4 @@
-class NavPresenter < BasePresenter
+class PtNavPresenter < PtBasePresenter
   include Rails.application.routes.url_helpers
   presents :nav
 

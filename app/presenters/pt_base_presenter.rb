@@ -1,4 +1,6 @@
-class BasePresenter
+class PtBasePresenter
+  attr_accessor :object, :template
+
   def initialize(object, template)
     @object = object
     @template = template
