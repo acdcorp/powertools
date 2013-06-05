@@ -8,6 +8,7 @@ pt.tags.push
       attr    = $el.ptAttr()
       buttons = []
       title   = attr.modalTitle
+      width    = attr.modalWidth
 
       if Object.has attr, 'modalSave'
         buttons.push
@@ -41,6 +42,9 @@ pt.tags.push
           success: (html) ->
             $bootbox = bootbox.dialog html, buttons, { header: title, keyboard: true  }
             $bootbox.find('.modal-body').attr id: 'pt-modal-body'
+            if width
+              $bootbox.css "width", width
+              $bootbox.css "margin-left", ((width/2)*-1)              
 
             # Make close button gray
             if Object.has attr, 'modalSave'
