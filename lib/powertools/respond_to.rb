@@ -7,7 +7,7 @@ module Powertools::RespondTo
     block = lambda do |format|
       if options[:partials] and partial = params_contain_partial(options[:partials] || [])
         case File.extname(partial[:template])
-        when :js
+        when ".js"
           format.js { render partial: partial[:template] }
         else
           format.html { render partial: partial[:template] }
