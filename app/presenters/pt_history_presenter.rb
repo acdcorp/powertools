@@ -6,14 +6,14 @@ class PtHistoryPresenter < PtBasePresenter
   end
 
   def render_partial
-    table_name = object.trackable_type.underscore.pluralize
-    template.sync partial: "#{table_name}/#{object.action}", resource: object, scope: @object.associated
+    # table_name = object.trackable_type.underscore.pluralize
+    # template.sync partial: "#{table_name}/#{object.action}", resource: object, scope: @object.associated
     ###########################
     # SYM LINK THE HISTORIES FOLDER
     ###########################
-    # locals = {history: object, presenter: self}
-    # locals[object.trackable_type.underscore.to_sym] = @object.trackable
-    # template.render partial_path, locals
+    locals = {history: object, presenter: self}
+    locals[object.trackable_type.underscore.to_sym] = @object.trackable
+    template.render partial_path, locals
   end
 
   def partial_path
