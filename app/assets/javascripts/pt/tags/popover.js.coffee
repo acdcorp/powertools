@@ -6,7 +6,6 @@ pt.tags.push
     callback: ->
       $el = $ this
       $el.data 'ptPopoverFocused', true
-      log $el.data()
       attr = $el.ptAttr()
 
       if not $el.data 'ptPopoverLoaded'
@@ -32,5 +31,9 @@ pt.tags.push
     event: 'mouseleave'
     callback: ->
       $el = $ this
+      attr = $el.ptAttr()
       $el.data 'ptPopoverFocused', false
-      $el.popover 'hide'
+      if not attr.popoverContainer
+        $el.popover 'hide'
+      else
+        $el.closest(attr.popoverContainer).find('.popover').remove()
