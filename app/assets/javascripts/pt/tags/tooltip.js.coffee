@@ -28,6 +28,6 @@ pt.tags.push
       $el = $ this
       attr = $el.ptAttr()
       if not attr.tooltipContainer
-        $el.popover 'hide'
+        $el.tooltip 'hide'
       else
         $el.closest(attr.tooltipContainer).find('.tooltip').remove()
