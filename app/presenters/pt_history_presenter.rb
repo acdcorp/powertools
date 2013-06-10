@@ -1,8 +1,6 @@
 class PtHistoryPresenter < PtBasePresenter
   def render
-    template.div_for object do
-      template.link_to(object.creator.full_name, object.creator) + " " + render_partial
-    end
+    render_partial
   end
 
   def render_partial
