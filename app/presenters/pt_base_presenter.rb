@@ -1,4 +1,6 @@
 class PtBasePresenter
+  attr_reader :object, :template
+
   def initialize(object, template)
     @object = object
     @template = template
