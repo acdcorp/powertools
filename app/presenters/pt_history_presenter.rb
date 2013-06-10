@@ -1,7 +1,7 @@
 class PtHistoryPresenter < PtBasePresenter
   def render
     @template.div_for @object do
-      template.link_to(@object.creator.full_name, @object.creator) + " " + render_partial
+      @template.link_to(@object.creator.full_name, @object.creator) + " " + render_partial
     end
   end
 
@@ -11,14 +11,13 @@ class PtHistoryPresenter < PtBasePresenter
     ###########################
     # SYM LINK THE HISTORIES FOLDER
     ###########################
-    locals = {history: object, presenter: self}
-    locals[object.trackable_type.underscore.to_sym] = @object.trackable
-    template.render partial_path, locals
+    locals = {history: @object, presenter: self}
+    @template.render partial_path, locals
   end
 
   def partial_path
     partial_paths.detect do |path|
-      template.lookup_context.template_exists? path, nil, true
+      @template.lookup_context.template_exists? path, nil, true
     end || raise("No partial found for activity in #{partial_paths}")
   end
 
