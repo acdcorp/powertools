@@ -30,13 +30,17 @@ processMessages = (event, xhr, settings) ->
     $flash.delay(2500).slideUp 'fast', ->
       $(this).remove()
 
+addFlashClasses = ->
+  $ptFlashContainer = $ '[pt-flash-messages]'
+  $ptFlashContainer.addClass 'pt-flash-messages'
+
 pt.tags.push
+  oneTime:
+    event: 'onload'
+    callback: ->
+      addFlashClasses()
+      $(document).ajaxSuccess processMessages
+      $(document).ajaxError processMessages
   ready:
     event: 'bind'
-    callback: ->
-      $ptFlashContainer = $ '[pt-flash-messages]'
-      if $ptFlashContainer.length and not $ptFlashContainer.data 'loadedFlashMessages'
-        $ptFlashContainer.addClass 'pt-flash-messages'
-        $ptFlashContainer.data 'loadedFlashMessages', true
-        $(document).ajaxSuccess processMessages
-        $(document).ajaxError processMessages
+    callback: -> addFlashClasses()

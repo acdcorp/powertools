@@ -1,3 +1,15 @@
+class String
+  def is_i?
+    !!(self =~ /^[-+]?[0-9]+$/)
+  end
+end
+
+# class String
+#   def is_number?
+#     true if Float(self) rescue false
+#   end
+# end
+
 require 'powertools/engine'
 require 'powertools/nav'
 require 'powertools/respond_to'
