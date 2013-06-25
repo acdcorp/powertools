@@ -12,7 +12,9 @@ pt.tags.push
           $el.parent().html html
           $(document).trigger 'page:change'
         $(this).ajaxSubmit
-          success: (html) -> addHtml html
+          success: (html, responseText, xhr) ->
+            unless xhr.getResponseHeader("content-type").match('text/javascript').length
+              addHtml html
           error: (response, status) ->
             switch response.status
               # This error code just means the didn't send all required fields,
