@@ -13,7 +13,7 @@ pt.tags.push
           $(document).trigger 'page:change'
         $(this).ajaxSubmit
           success: (html, responseText, xhr) ->
-            unless xhr.getResponseHeader("content-type").match('text/javascript').length
+            unless (type = xhr.getResponseHeader("content-type").match('text/javascript')) && type.length
               addHtml html
           error: (response, status) ->
             switch response.status
