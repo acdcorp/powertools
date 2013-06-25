@@ -26,6 +26,8 @@ pt['init'] = ->
           # Makes it work with turbolinks
           if name == 'ready'
             $(document).bind 'page:load', callback
+        when 'onload'
+          $(document).on 'ready', callback
         else
           $(document).on event, "[pt-#{name}]", callback
 pt.init()

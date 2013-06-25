@@ -12,7 +12,7 @@ pt.tags.push
           html: true
           title: attr.tooltip
           placement: attr.tooltipPlacement or 'right'
-          container: attr.tooltipContainer or 'body'          
+          container: attr.tooltipContainer or 'body'
           trigger: 'manual'
 
         $el.tooltip 'show'
@@ -24,7 +24,7 @@ pt.tags.push
 pt.tags.push
   tooltip:
     event: 'mouseleave'
-    callback: -> 
+    callback: ->
       $el = $ this
       attr = $el.ptAttr()
       if not attr.tooltipContainer
