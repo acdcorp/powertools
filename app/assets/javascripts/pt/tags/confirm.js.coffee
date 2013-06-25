@@ -2,15 +2,20 @@ window.pt ||= tags: []
 
 confirm = ($el, type = 'confirm') ->
     attr = $el.ptAttr()
-    url  = attr.confirmDelete
 
     switch type
       when 'delete'
         buttonName = attr.confirmButton or 'Delete'
         ajaxType = 'DELETE'
+        url  = attr.confirmDelete
+      when 'post'
+        buttonName = attr.confirmButton or 'Save'
+        ajaxType = 'POST'
+        url  = attr.confirmPost
       else
         buttonName = attr.confirmButton or 'Yes'
         ajaxType = 'PUT'
+        url = attr.confirm
 
     if attr.confirmContainer
       $confirmContainer = $el.closest(attr.confirmContainer)
@@ -40,7 +45,8 @@ confirm = ($el, type = 'confirm') ->
             $confirmContainer.popover 'hide'
 
       $confirmContainer.on 'click', '.popover-content .cancel', ->
-        $confirmContainer.popover 'hide'
+        $confirmContainer.find('.popover').remove()
+        # $confirmContainer.popover 'hide'
 
       $confirmContainer.popover
         content: $html
@@ -54,6 +60,10 @@ confirm = ($el, type = 'confirm') ->
 
 
 pt.tags.push
+  confirmPost:
+    event: 'click'
+    callback: ->
+      confirm $(this), 'post'
   confirmDelete:
     event: 'click'
     callback: ->
