@@ -2,15 +2,16 @@ class Powertools::Form
   include ActiveModel::Model
   include Hooks
 
-  define_hooks :initialize, :before_submit, :before_forms_save, :before_save, :after_save
+  define_hooks :initialize, :before_submit, :before_validation, :before_forms_save, :before_save, :after_save
 
-  attr_accessor :store
+  attr_accessor :store, :params, :options
 
   def store
     self.class.store ||= {}
   end
 
-  def initialize model = false, options = {}
+  def initialize model = false, *options
+    @options = options.extract_options!
     # This is so simple form knows how to set the correct name
     # for the submit button. i.e. create or edit
     @persisted = (model.respond_to?(:id) && model.id) ? :edit : false
@@ -62,7 +63,7 @@ class Powertools::Form
   end
 
   def submit params
-    @params = params
+    @params  = params
 
     run_hook :before_submit
     # Set all the values
@@ -70,8 +71,13 @@ class Powertools::Form
 
     # Check if everything in the store is valid
     is_valid = true
+
+    run_hook :before_validation
+
     store.each do |store_name, store_data|
-      is_valid &= send(store_name).valid?
+      if (store_name != :attr_accessor and !store_data.key?(:validate)) or store_data[:validate].to_s.to_boolean != false
+        is_valid &= send(store_name).valid?
+      end
     end
 
     # Check to see if the root form is valid
@@ -88,7 +94,7 @@ class Powertools::Form
     run_hook :before_forms_save
     # Save the forms
     store.each do |store_key, current_store|
-      if store_key != model_name_sym && current_store[:type] == :form
+      if store_key != model_name_sym && current_store[:type] == :form and current_store[:validate].to_s.to_boolean != false
         send(store_key).save!
       end
     end
@@ -121,6 +127,8 @@ class Powertools::Form
               else
                 send("#{key}=", params[key])
               end
+            elsif respond_to? "#{key}="
+              send("#{key}=", value)
             end
           else
             if respond_to? "#{key}="
@@ -189,6 +197,20 @@ class Powertools::Form
           form_name: form_sym,
           model_name: form.new.class.model_name.to_s.underscore.to_sym
         }
+      elsif options.key? :to
+        type = options[:to]
+        if type == :attr_accessor
+          fields.each do |field|
+            attr_accessor field
+          end
+          store[type] ||= {
+            type: :attr_accessor,
+            fields: []
+          }
+          store[type][:fields].concat(fields).uniq!
+        else
+          super(*fields, options)
+        end
       else
         super(*fields, options)
       end
@@ -208,7 +230,7 @@ class Powertools::Form
 
         # Make sure all nested forms are valid and add the errors
         store.each do |store_key, current_store|
-          if current_store[:type] == :form
+          if current_store[:type] == :form and current_store[:validate].to_s.to_boolean != false
             model = send(store_key)
             if !model.valid?
               model.errors.messages.each do |field, model_errors|
