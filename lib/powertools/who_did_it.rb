@@ -8,6 +8,7 @@ module Powertools::WhoDidIt
     if self.column_names.include? :updater_id
       belongs_to :updater, class_name: 'User'
       before_update :add_updater
+      before_create :add_updater #rails sets updated_at on create so we should also set updater
     end
   end
 
@@ -16,12 +17,10 @@ module Powertools::WhoDidIt
   def add_creator
     self.creator = User.current if(!self.creator_id && User.current)
     self.creator_id = ENV["SYSTEM_USER_ID"] if(!self.creator_id && ENV["SYSTEM_USER_ID"].present?)
-    if self.column_names.include? :updater_id
-      self.updater_id = creator_id #set updater_id too since rails sets updated_at
-    end
   end
 
   def add_updater
     self.updater = User.current if User.current
+    self.updater_id = ENV["SYSTEM_USER_ID"] if(!self.updater_id && ENV["SYSTEM_USER_ID"].present?)    
   end
 end
