@@ -249,7 +249,7 @@ class Powertools::Form
         model._validators[field.to_sym].each do |validation|
           case validation.class.name
           when 'ActiveRecord::Validations::PresenceValidator'
-            validates_presence_of field
+            validates_presence_of field, validation.options
           end
         end
       end
