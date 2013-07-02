@@ -11,6 +11,9 @@ pt.tags.push
       $container = $("##{attr.link}")
       url        = $el.attr 'href'
 
+      # we want to hide any previous content immediately
+      $container.html 'Loading...'
+
       unless $el.data 'ptLinkLoading'
         $el.data 'ptLinkLoading', true
 

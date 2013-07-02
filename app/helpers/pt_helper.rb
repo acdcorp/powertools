@@ -67,4 +67,20 @@ module PtHelper
     todays_year = Date.today.year + 2; (0..100).map { todays_year -= 1 }
   end
 
+  def trackable_changes_tag changes
+    output = ""
+    begin
+      JSON.parse(changes).each do |change|
+        if change[1][0].present?
+          output += content_tag(:div, "#{change[0].humanize}: Changed [#{change[1][0]}] to [#{change[1][1]}]")
+        else
+          output += content_tag(:div, "#{change[0].humanize}: Added [#{change[1][1]}]")
+        end
+      end
+      output
+    rescue
+      output
+    end
+  end
+
 end

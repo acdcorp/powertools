@@ -4,10 +4,14 @@ class Powertools::Form
 
   define_hooks :initialize, :before_submit, :before_validation, :before_forms_save, :before_save, :after_save
 
-  attr_accessor :store, :params, :options
+  attr_accessor :store, :params, :options, :current_user
 
   def store
     self.class.store ||= {}
+  end
+
+  def current_user
+    @options[:current_user]
   end
 
   def initialize model = false, *options
@@ -62,8 +66,11 @@ class Powertools::Form
     send("#{method_name}=", method_object)
   end
 
-  def submit params
+  def submit params, *options
+    @options.merge! options.extract_options!
     @params  = params
+
+    raise "No current_user passed into form options" unless current_user.present?
 
     run_hook :before_submit
     # Set all the values
@@ -150,7 +157,7 @@ class Powertools::Form
   end
 
   class << self
-    attr_accessor :store
+    attr_accessor :store, :current_user
 
     def store
       @store ||= {}
@@ -249,7 +256,7 @@ class Powertools::Form
         model._validators[field.to_sym].each do |validation|
           case validation.class.name
           when 'ActiveRecord::Validations::PresenceValidator'
-            validates_presence_of field
+            validates_presence_of field, validation.options
           end
         end
       end
