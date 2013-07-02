@@ -8,8 +8,8 @@ select2 = ->
 
     unless $el.data 'ptSelect2Loaded'
       $el.data 'ptSelect2Loaded', true
-      options =
-        width: $el.css('width')
+      options = {}
+        # width: $el.css('width')
 
       if Object.has attr, 'select2Add'
         options['multiple']           = false
