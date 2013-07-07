@@ -66,7 +66,7 @@ class Powertools::Form
     send("#{method_name}=", method_object)
   end
 
-  def submit params, *options
+  def submit params=[], *options
     @options.merge! options.extract_options!
     @params  = params
 
