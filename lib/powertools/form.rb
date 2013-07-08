@@ -66,7 +66,7 @@ class Powertools::Form
     send("#{method_name}=", method_object)
   end
 
-  def submit params, *options
+  def submit params=[], *options
     @options.merge! options.extract_options!
     @params  = params
 
@@ -256,7 +256,7 @@ class Powertools::Form
         model._validators[field.to_sym].each do |validation|
           case validation.class.name
           when 'ActiveRecord::Validations::PresenceValidator'
-            if field != :email and validation.class.name != 'User'
+            if field != :email and model.name != 'User'
               validates_presence_of field, validation.options
             else
               validates_presence_of field
