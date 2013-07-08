@@ -27,6 +27,7 @@ require 'powertools/who_did_it'
 require 'powertools/ajax_flash'
 require 'powertools/history_tracker'
 require 'powertools/form'
+require 'powertools/form_input'
 require 'powertools/generators/history_tracker_generator'
 
 module Powertools

@@ -41,7 +41,7 @@ ptChange = ->
             url: url
             data: data
             success: (newHtml) ->
-              if $newHtml = $(newHtml).find(attr.loadContainer)
+              if ($newHtml = $(newHtml).find(attr.loadContainer)) and $newHtml.length > 0
                 html = $newHtml.html()
               else
                 html = newHtml

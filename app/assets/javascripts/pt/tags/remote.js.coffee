@@ -22,5 +22,6 @@ pt.tags.push
               when 406
                 addHtml response.responseText
               else
-                Throw response.statusText, response
+                log '[c="color: red"]PT REMOTE ERROR:[c]'
+                log response.statusText, response
         return false

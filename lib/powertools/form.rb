@@ -256,7 +256,11 @@ class Powertools::Form
         model._validators[field.to_sym].each do |validation|
           case validation.class.name
           when 'ActiveRecord::Validations::PresenceValidator'
-            validates_presence_of field, validation.options
+            if field != :email and validation.class.name != 'User'
+              validates_presence_of field, validation.options
+            else
+              validates_presence_of field
+            end
           end
         end
       end
@@ -276,7 +280,11 @@ class Powertools::Form
 
       # So simple form can automatically set the column type i.e. Boolean
       define_method 'column_for_attribute' do |field|
-        send(name).column_for_attribute field
+        if respond_to? "#{field}_input"
+          send("#{field}_input")
+        else
+          send(name).column_for_attribute field
+        end
       end
     end
   end
