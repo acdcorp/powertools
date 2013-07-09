@@ -12,23 +12,24 @@ processMessages = (event, xhr, settings) ->
   messages = $.parseJSON xhr.getResponseHeader('X-Flash-Messages')
 
   for type, message of messages
-    $flash = $ '<div>',
-      class: "alert #{getAlertClass(type)}"
-      html: $ '<p>',
-        html: message
+    $.jGrowl message, { theme: getAlertClass(type) }
+    # $flash = $ '<div>',
+    #   class: "alert #{getAlertClass(type)}"
+    #   html: $ '<p>',
+    #     html: message
 
-    $link = $ '<a>',
-      class: 'close'
-      html: '×'
-      href: 'javascript:{};'
+    # $link = $ '<a>',
+    #   class: 'close'
+    #   html: '×'
+    #   href: 'javascript:{};'
 
-    $link.bind 'click', -> $flash.remove()
+    # $link.bind 'click', -> $flash.remove()
 
-    $flash.prepend $link
-    $ptFlashContainer.prepend $flash
+    # $flash.prepend $link
+    # $ptFlashContainer.prepend $flash
 
-    $flash.delay(2500).slideUp 'fast', ->
-      $(this).remove()
+    # $flash.delay(2500).slideUp 'fast', ->
+    #   $(this).remove()
 
 addFlashClasses = ->
   $ptFlashContainer = $ '[pt-flash-messages]'
