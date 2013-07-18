@@ -20,6 +20,7 @@ module Powertools::HistoryTracker
   end
 
   def pt_track_history(trackable, options = {})
+    raise "Must pass current user" if options[:current_user].blank?
     # So we can access it via a string or symbol
     options = options.with_indifferent_access
 
