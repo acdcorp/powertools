@@ -14,6 +14,7 @@ ptLoad = ->
         success: (html) ->
           $el.html html
           $el.data 'ptLoadLoaded', false
+          $(document).trigger 'page:change'
 
   ptChange()
 
