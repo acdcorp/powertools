@@ -4,7 +4,7 @@ class Powertools::Form
 
   define_hooks :initialize, :before_submit, :before_validation, :before_forms_save, :before_save, :after_save
 
-  attr_accessor :store, :params, :options, :current_user
+  attr_accessor :model, :store, :params, :options, :current_user
 
   def store
     self.class.store ||= {}
@@ -15,6 +15,7 @@ class Powertools::Form
   end
 
   def initialize model = false, *options
+    @model   = model
     @options = options.extract_options!
     # This is so simple form knows how to set the correct name
     # for the submit button. i.e. create or edit
@@ -253,13 +254,15 @@ class Powertools::Form
 
     def inherit_presence_validators model, fields
       fields.each do |field|
-        model._validators[field.to_sym].each do |validation|
-          case validation.class.name
-          when 'ActiveRecord::Validations::PresenceValidator'
-            if field != :email and model.name != 'User'
-              validates_presence_of field, validation.options
-            else
-              validates_presence_of field
+        if defined? model._validators
+          model._validators[field.to_sym].each do |validation|
+            case validation.class.name
+            when 'ActiveRecord::Validations::PresenceValidator'
+              if field != :email and model.name != 'User'
+                validates_presence_of field, validation.options
+              else
+                validates_presence_of field
+              end
             end
           end
         end
