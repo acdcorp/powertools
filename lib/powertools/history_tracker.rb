@@ -44,8 +44,9 @@ module Powertools::HistoryTracker
     end
 
     # Save any extra options
-    if options.key? :extras
-      history.extras = extras
+    if options.key? :extras 
+      raise "extras must be a hash" if !options[:extras].is_a? Hash
+      history.extras = options[:extras].to_json
     end
 
     # Save the history
