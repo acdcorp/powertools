@@ -20,6 +20,8 @@ module Powertools::HistoryTracker
   end
 
   def pt_track_history(trackable, options = {})
+    raise "Must pass current user" if options[:current_user].blank?
+
     # So we can access it via a string or symbol
     options = options.with_indifferent_access
 
@@ -29,15 +31,9 @@ module Powertools::HistoryTracker
     # Go no further if we don't have updates
     return if (action == 'update' and not trackable.pt_changes)
 
-    # Set the current history user
-    if options.key? :current_user
-      history_current_user = options[:current_user]
-    else
-      history_current_user = current_user
-    end
-
     # Create the new history line
-    history = history_current_user.histories.new action: action
+    history = PtHistory.new action: action
+    history.creator = options[:current_user]
 
     history.action     = action
     history.trackable  = trackable
@@ -48,8 +44,9 @@ module Powertools::HistoryTracker
     end
 
     # Save any extra options
-    if options.key? :extras
-      history.extras = extras
+    if options.key? :extras 
+      raise "extras must be a hash" if !options[:extras].is_a? Hash
+      history.extras = options[:extras].to_json
     end
 
     # Save the history
