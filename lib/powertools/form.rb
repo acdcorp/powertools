@@ -228,7 +228,7 @@ class Powertools::Form
       validate do
         # Validate the model
         model = send(model_sym)
-        if !model.valid?
+        unless model.valid?
           model.errors.messages.each do |field, model_errors|
             model_errors.each do |model_error|
               errors.add field, model_error
@@ -238,9 +238,9 @@ class Powertools::Form
 
         # Make sure all nested forms are valid and add the errors
         store.each do |store_key, current_store|
-          if current_store[:type] == :form and current_store[:validate].to_s.to_boolean != false
+          if not current_store[:validate] or current_store[:validate].to_s.to_boolean != false
             model = send(store_key)
-            if !model.valid?
+            unless model.valid?
               model.errors.messages.each do |field, model_errors|
                 model_errors.each do |model_error|
                   errors.add field, model_error
