@@ -5,6 +5,7 @@ class CreatePtHistoriesTable < ActiveRecord::Migration
       t.belongs_to :trackable, polymorphic: true, index: true
       t.text :trackable_changes
       t.string :action
+      t.string :permission, length: 30, null: false
       t.text :extras
 
       t.belongs_to :creator, index: true
