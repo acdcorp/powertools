@@ -19,9 +19,7 @@ module Powertools::HistoryTracker
     end
   end
 
-  def pt_track_history(trackable, options = {})
-    raise "Must pass current user" if options[:current_user].blank?
-    raise "Must pass permission" if options[:permission].blank?
+  def pt_track_history(trackable, current_user, permission, options = {})
 
     # So we can access it via a string or symbol
     options = options.with_indifferent_access
@@ -34,8 +32,8 @@ module Powertools::HistoryTracker
 
     # Create the new history line
     history = PtHistory.new action: action
-    history.creator = options[:current_user]
-    history.permission = options[:permission]
+    history.creator = current_user
+    history.permission = permission
 
     history.action     = action
     history.trackable  = trackable

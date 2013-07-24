@@ -12,7 +12,7 @@ for event in ['mouseover', 'mouseout', 'change']
         $el        = $ this
         attr       = $el.ptAttr()
 
-        data = attr[eventName.camelize(false)].dasherize().split('-')
+        data = attr[eventName.camelize(false)]?.dasherize().split('-')
 
         loadedName       = "#{eventName}Loaded"
         oppositeBindName = "#{eventName}OppositeBind"
@@ -22,6 +22,7 @@ for event in ['mouseover', 'mouseout', 'change']
             [method, action, filter] = data
             $el.find(filter)[method](action)
           when 'put'
+            return unless data
             $.ajax
               url: data.first()
               type: 'PUT'

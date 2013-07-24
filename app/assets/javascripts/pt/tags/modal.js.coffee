@@ -56,5 +56,5 @@ pt.tags.push
                 value: true
               $bootbox.find('.modal-body form').append $ptModal
 
-            $(document).trigger 'page:change'
             $el.data 'ptModalLoaded', false
+            $(document).trigger 'page:change'

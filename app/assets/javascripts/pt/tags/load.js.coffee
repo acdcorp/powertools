@@ -13,7 +13,7 @@ ptLoad = ->
         url: url
         success: (html) ->
           $el.html html
-          $el.data 'ptLoadLoaded', false
+          # $el.data 'ptLoadLoaded', false
           $(document).trigger 'page:change'
 
   ptChange()
@@ -61,4 +61,4 @@ pt.tags.push
 
   'page:change':
     event: 'bind'
-    callback: ptChange
+    callback: ptLoad
