@@ -10,13 +10,10 @@ class Powertools::Form
     self.class.store ||= {}
   end
 
-  def current_user
-    @options[:current_user]
-  end
-
-  def initialize model = false, *options
-    @model   = model
-    @options = options.extract_options!
+  def initialize current_user, model = false, *options
+    @current_user = current_user
+    @model        = model
+    @options      = options.extract_options!
     # This is so simple form knows how to set the correct name
     # for the submit button. i.e. create or edit
     @persisted = (model.respond_to?(:id) && model.id) ? :edit : false
@@ -47,7 +44,7 @@ class Powertools::Form
         end
       when :form
         if model && model.respond_to?(store_key)
-          form = Object::const_get(current_store[:class]).new model.send(store_key)
+          form = Object::const_get(current_store[:class]).new current_user, model.send(store_key)
           add_method form, store_key
         end
       end
@@ -102,12 +99,21 @@ class Powertools::Form
     run_hook :before_forms_save
     # Save the forms
     store.each do |store_key, current_store|
-      if store_key != model_name_sym && current_store[:type] == :form and current_store[:validate].to_s.to_boolean != false
+      if store_key != model_name_sym && current_store[:type] == :form and (!current_store[:validate] or current_store[:validate].to_s.to_boolean != false)
         send(store_key).save!
       end
     end
     run_hook :before_save
-    send(model_name_sym).save!
+    model = send(model_name_sym)
+    # Maybe we should move it out of options and make it a
+    # mandatory field we have to pass in when calling #new
+    if model.id
+      model.updater = current_user
+    else
+      model.creator = current_user
+      model.updater = current_user
+    end
+    model.save!
     run_hook :after_save
   end
 
@@ -149,7 +155,7 @@ class Powertools::Form
       # This is if we are adding _form methods
       # current_form = send(current_store[:form_name])
       current_form = send(params_key)
-      current_form.set_params params, current_store[:model_name]
+      current_form.set_params params, current_form.class.model_name.to_s.underscore.to_sym
     else
       if respond_to? "#{params_key}="
         send("#{params_key}=", params)
@@ -197,13 +203,13 @@ class Powertools::Form
         # Set form class name
         form_class = form_sym.to_s.classify
         # Set form object
-        form = Object::const_get(form_class)
+        # form = Object::const_get(form_class).new current_user
         # initiate the defaults
         store[form_model_name_sym] ||= {
           type: :form,
           class: form_class,
-          form_name: form_sym,
-          model_name: form.new.class.model_name.to_s.underscore.to_sym
+          form_name: form_sym
+          # model_name: form.class.model_name.to_s.underscore.to_sym
         }
       elsif options.key? :to
         type = options[:to]
@@ -238,7 +244,7 @@ class Powertools::Form
 
         # Make sure all nested forms are valid and add the errors
         store.each do |store_key, current_store|
-          if not current_store[:validate] or current_store[:validate].to_s.to_boolean != false
+          if store_key != :attr_accessor and (!current_store[:validate] or current_store[:validate].to_s.to_boolean != false)
             model = send(store_key)
             unless model.valid?
               model.errors.messages.each do |field, model_errors|
