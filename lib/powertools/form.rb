@@ -10,7 +10,7 @@ class Powertools::Form
     self.class.store ||= {}
   end
 
-  def initialize current_user = false, model = false, *options
+  def initialize current_user, model = false, *options
     @current_user = current_user
     @model        = model
     @options      = options.extract_options!
@@ -244,7 +244,7 @@ class Powertools::Form
 
         # Make sure all nested forms are valid and add the errors
         store.each do |store_key, current_store|
-          if not current_store[:validate] or current_store[:validate].to_s.to_boolean != false
+          if store_key != :attr_accessor and (!current_store[:validate] or current_store[:validate].to_s.to_boolean != false)
             model = send(store_key)
             unless model.valid?
               model.errors.messages.each do |field, model_errors|
