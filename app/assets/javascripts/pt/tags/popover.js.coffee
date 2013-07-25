@@ -23,9 +23,9 @@ pt.tags.push
               placement: attr.popoverPlacement or 'right'
             $el.data 'ptPopoverLoaded', false
             $el.popover 'show' if $el.data 'ptPopoverFocused'
-
       else
         $el.popover 'show'
+
 pt.tags.push
   popover:
     event: 'mouseleave'
@@ -34,6 +34,7 @@ pt.tags.push
       attr = $el.ptAttr()
       $el.data 'ptPopoverFocused', false
       if not attr.popoverContainer
-        $el.popover 'hide'
+        $('body').find('.popover').remove()
+        # $el.popover 'hide'
       else
         $el.closest(attr.popoverContainer).find('.popover').remove()
