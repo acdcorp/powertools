@@ -28,7 +28,14 @@ module Powertools::HistoryTracker
     action = options.key?(:action) ? options[:action] : params[:action]
 
     # Go no further if we don't have updates
-    return if (action == 'update' and not trackable.pt_changes)
+    return if (action == 'update' and not trackable.pt_changes and not options[:force_save])
+
+
+    if (options[:extras] and options[:extras][:action].present? and options[:extras][:action].to_sym == :viewed)
+      cache_key = "viewed_claim_#{trackable.id}_#{current_user.id}"
+      return if Rails.cache.exist? cache_key
+      Rails.cache.write cache_key, true, expires_in: 300
+    end
 
     # Create the new history line
     history = PtHistory.new action: action
