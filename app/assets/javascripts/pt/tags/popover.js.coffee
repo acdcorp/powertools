@@ -19,13 +19,13 @@ pt.tags.push
               content: html
               html: true
               trigger: 'manual'
-              container: attr.popoverContainer or 'body'
+              container: $el.parent()
               placement: attr.popoverPlacement or 'right'
             $el.data 'ptPopoverLoaded', false
             $el.popover 'show' if $el.data 'ptPopoverFocused'
-
       else
         $el.popover 'show'
+
 pt.tags.push
   popover:
     event: 'mouseleave'
@@ -33,7 +33,4 @@ pt.tags.push
       $el = $ this
       attr = $el.ptAttr()
       $el.data 'ptPopoverFocused', false
-      if not attr.popoverContainer
-        $el.popover 'hide'
-      else
-        $el.closest(attr.popoverContainer).find('.popover').remove()
+      $el.parent().find('.popover').remove()
