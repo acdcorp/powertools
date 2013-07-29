@@ -43,7 +43,8 @@ module Powertools::HistoryTracker
     history.permission = permission
 
     history.action     = action
-    history.action_type  = options.key?(:action_type) ? options[:action_type] : nil
+    history.action_type  = options.key?(:action_type) ? options[:action_type].to_s : nil
+    history.action_subtype  = options.key?(:action_subtype) ? options[:action_subtype].to_s : nil
     history.trackable  = trackable
     history.associated = options.key?(:scope) ? options[:scope] : trackable
 
