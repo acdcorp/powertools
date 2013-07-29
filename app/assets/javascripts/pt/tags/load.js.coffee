@@ -20,9 +20,9 @@ ptLoad = ->
 
 ptChange = ->
   $('[pt-change-load]').each ->
-      $el        = $ this
-      attr       = $el.ptAttr()
-      url        = attr.changeLoad
+      $el               = $ this
+      attr              = $el.ptAttr()
+      url               = attr.changeLoad
 
       unless $el.data 'ptChangeLoadLoaded'
         $el.data 'ptChangeLoadLoaded', true
@@ -33,13 +33,22 @@ ptChange = ->
           name.first()
 
         $el.on 'change', ->
+          $self = $ this
+
+          if not $self.is(':checkbox')
+            value = $self.val()
+          else
+            value = $self.is(':checked')
+
+
           data =
             field: name
-            value: $el.val()
+            value: value
             pt_ajax: 'change-load'
 
           $.ajax
             url: url
+            type: attr.changeLoadType || 'GET'
             data: data
             success: (newHtml) ->
               if ($newHtml = $(newHtml).find(attr.loadContainer)) and $newHtml.length > 0
@@ -50,7 +59,7 @@ ptChange = ->
               if $container = $(attr.loadContainer)
                 $container.html(html).show().removeClass 'hidden'
               else
-                $el.html(html).show().removeClass 'hidden'
+                $self.html(html).show().removeClass 'hidden'
 
               $(document).trigger 'page:change'
 

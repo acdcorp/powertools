@@ -30,4 +30,9 @@ pt['init'] = ->
           $(document).on 'ready', callback
         else
           $(document).on event, "[pt-#{name}]", callback
+
+  # Add authenticity token to every ajax call so rails doesn't freak out :)
+  $.ajaxSetup
+    data:
+      authenticity_token: $('head').find('meta[name = "csrf-token"]').attr('content')
 pt.init()

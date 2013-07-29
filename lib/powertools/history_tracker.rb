@@ -48,11 +48,11 @@ module Powertools::HistoryTracker
     history.associated = options.key?(:scope) ? options[:scope] : trackable
 
     if action == 'update'
-      history.trackable_changes = trackable.pt_changes.to_json
+      history.trackable_changes = trackable.pt_changes ? trackable.pt_changes.to_json : nil
     end
 
     # Save any extra options
-    if options.key? :extras 
+    if options.key? :extras
       raise "extras must be a hash" if !options[:extras].is_a? Hash
       history.extras = options[:extras].to_json
     end
