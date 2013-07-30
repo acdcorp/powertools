@@ -23,7 +23,7 @@ pt.tags.push
 
       unless $el.data 'ptDateLoaded'
         $el.datetimepicker
-          format: attr.date or 'mm/dd/yyyy'
+          format: 'mm/dd/yyyy'
           showMeridian: true
           autoclose: true
           minView: 2
