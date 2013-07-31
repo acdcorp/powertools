@@ -28,6 +28,7 @@ require 'powertools/ajax_flash'
 require 'powertools/history_tracker'
 require 'powertools/form'
 require 'powertools/form_input'
+require 'powertools/unrestricted_attributes'
 require 'powertools/generators/history_tracker_generator'
 
 module Powertools
