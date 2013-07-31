@@ -12,7 +12,7 @@ module Powertools::HistoryTracker
 
   def set_pt_changes
     if self.changed?
-      ignore_list     = %w(created_at updated_at deleted_at)
+      ignore_list     = %w(created_at updated_at deleted_at updater_id creator_id)
       self.pt_changes = changes.reject { |key, value| ignore_list.include? key }
     else
       false
@@ -31,7 +31,7 @@ module Powertools::HistoryTracker
     return if (action == 'update' and not trackable.pt_changes and not options[:force_save])
 
 
-    if (options[:extras] and options[:extras][:action].present? and options[:extras][:action].to_sym == :viewed)
+    if (options[:action_type].present? and options[:action_type].to_sym == :viewed)
       cache_key = "viewed_claim_#{trackable.id}_#{current_user.id}"
       return if Rails.cache.exist? cache_key
       Rails.cache.write cache_key, true, expires_in: 300
