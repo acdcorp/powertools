@@ -30,7 +30,7 @@ ptChange = ->
         if name_split.length > 1
           name = name_split.last().slice(0,-1)
         else
-          name.first()
+          name = name_split.first()
 
         $el.on 'change', ->
           $self = $ this

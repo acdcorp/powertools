@@ -6,5 +6,7 @@ pt.tags.push
     callback: ->
       $el     = $ this
       attr    = $el.ptAttr()
-
-      $el.closest('form').remove()
+      if attr.formRemove
+      	$(attr.formRemove).remove()
+      else
+      	$el.closest('form').remove()
