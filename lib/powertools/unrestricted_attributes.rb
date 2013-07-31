@@ -12,7 +12,7 @@ module Powertools::UnrestrictedAttributes
   end
 
   def save_unrestricted_attributes
-    unless unrestricted_attributes.empty?
+    if unrestricted_attributes and unrestricted_attributes.any?
       unrestricted_attributes.each do |field, value|
         self[field] = value
       end
