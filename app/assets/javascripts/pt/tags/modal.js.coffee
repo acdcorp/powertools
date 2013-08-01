@@ -12,7 +12,7 @@ pt.tags.push
 
       if Object.has attr, 'modalSave'
         buttons.push
-          label: 'Save'
+          label: attr.modalSave || 'Save'
           # id: 'pt-modal-save'
           class: 'btn-primary'
           callback: ->
@@ -23,8 +23,11 @@ pt.tags.push
               error: (request) ->
                 $body.html request.responseText
                 $(document).trigger 'page:change'
-              success: (html) ->
-                $body.closest('.bootbox').modal('hide')
+              success: (html, msg, xhr) ->
+                if xhr.status != 278
+                  $body.closest('.bootbox').modal('hide')
+                else
+                  window.location.href = html.match(/(http(s|):\/\/).*(?=\")/).first()
             false
 
       buttons.push
@@ -44,7 +47,7 @@ pt.tags.push
             $bootbox.find('.modal-body').attr id: 'pt-modal-body'
             if width
               $bootbox.css "width", width
-              $bootbox.css "margin-left", ((width/2)*-1)              
+              $bootbox.css "margin-left", ((width/2)*-1)
 
             # Make close button gray
             if Object.has attr, 'modalSave'

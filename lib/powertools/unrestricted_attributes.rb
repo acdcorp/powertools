@@ -14,7 +14,7 @@ module Powertools::UnrestrictedAttributes
   def save_unrestricted_attributes
     if unrestricted_attributes and unrestricted_attributes.any?
       unrestricted_attributes.each do |field, value|
-        self[field] = value
+        self.send "#{field}=", value
       end
     end
   end
