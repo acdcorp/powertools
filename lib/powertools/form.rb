@@ -2,7 +2,7 @@ class Powertools::Form
   include ActiveModel::Model
   include Hooks
 
-  define_hooks :initialize, :before_submit, :before_validation, :before_forms_save, :before_save, :after_save
+  define_hooks :initialize, :before_submit, :before_validation, :before_forms_save, :before_create, :before_save, :after_save
 
   attr_accessor :model, :store, :params, :options, :current_user
 
@@ -103,8 +103,9 @@ class Powertools::Form
         send(store_key).save!
       end
     end
-    run_hook :before_save
     model = send(model_name_sym)
+    run_hook :before_create unless model.id
+    run_hook :before_save
     # Maybe we should move it out of options and make it a
     # mandatory field we have to pass in when calling #new
     if model.id
@@ -182,7 +183,7 @@ class Powertools::Form
         model = Object::const_get(model_class)
         # Add the option for the default rails delegate method
         options[:to] = model_sym
-        # Call te default delegate method
+        # Call the default delegate method
         super(*fields, options)
         # initiate the defaults
         store[model_sym] ||= {
@@ -203,6 +204,14 @@ class Powertools::Form
         # Set form class name
         form_class = form_sym.to_s.classify
         # Set form object
+        # Call the default delegate method
+        if options[:as] == :model
+          form_class.constantize.store.each do |current_key, current_store|
+            if current_store[:type] == :model
+              delegate(*current_store[:fields], { to_model: current_key })
+            end
+          end
+        end
         # form = Object::const_get(form_class).new current_user
         # initiate the defaults
         store[form_model_name_sym] ||= {
