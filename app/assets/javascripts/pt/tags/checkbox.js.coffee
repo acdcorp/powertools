@@ -8,7 +8,7 @@ pt.tags.push
       attr         = $el.ptAttr()
       checkboxName = attr.checkboxAll
       isChecked    = $el.is ':checked'
-      checkBoxes   = $("[pt-checkbox-wrap='#{checkboxName}']:visible [pt-checkbox='#{checkboxName}']:checked")
+      checkBoxes   = $("[pt-checkbox-wrap='#{checkboxName}']:visible [pt-checkbox='#{checkboxName}']")
 
       checkBoxes.prop 'checked', isChecked
 
@@ -22,8 +22,12 @@ pt.tags.push
       isChecked    = $el.is ':checked'
       checkBoxes   = $("[pt-checkbox-wrap='#{checkboxName}']:visible [pt-checkbox='#{checkboxName}']:checked")
       url          = $el.attr 'href'
+      ids          = []
 
-      checkBoxes.each (i, checkbox) ->
-        id = $(checkbox).attr 'pt-checkbox-id'
-        log url.replace(':id', id)
-        false
+      checkBoxes.each (i, checkbox) -> ids.push $(checkbox).attr 'pt-checkbox-id'
+
+      $.ajax
+        url: url
+        type: 'PUT'
+        data:
+          ids: ids
