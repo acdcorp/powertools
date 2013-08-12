@@ -12,17 +12,28 @@ pt.tags.push
         $el.data 'ptPopoverLoaded', true
         url = attr.popover
 
-        $.ajax
-          url: url
-          success: (html) ->
-            $el.popover
-              content: html
-              html: true
-              trigger: 'manual'
-              container: attr.popoverContainer or 'body'
-              placement: attr.popoverPlacement or 'right'
-            $el.data 'ptPopoverLoaded', false
-            $el.popover 'show' if $el.data 'ptPopoverFocused'
+        #if not a url assume it's content
+        if url.charAt(0)!="/"
+          $el.popover
+            content: url
+            html: true
+            trigger: 'manual'
+            container: attr.popoverContainer or 'body'
+            placement: attr.popoverPlacement or 'right'
+          $el.data 'ptPopoverLoaded', false
+          $el.popover 'show' if $el.data 'ptPopoverFocused'
+        else
+          $.ajax
+            url: url
+            success: (html) ->
+              $el.popover
+                content: html
+                html: true
+                trigger: 'manual'
+                container: attr.popoverContainer or 'body'
+                placement: attr.popoverPlacement or 'right'
+              $el.data 'ptPopoverLoaded', false
+              $el.popover 'show' if $el.data 'ptPopoverFocused'
       else
         $el.popover 'show'
 
