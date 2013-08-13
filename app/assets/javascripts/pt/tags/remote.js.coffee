@@ -9,7 +9,10 @@ pt.tags.push
 
       unless $el.data 'ptRemoteSending'
         addHtml = (html) ->
-          $el.parent().html html
+          if attr.remoteContainer
+            $(attr.remoteContainer).html html
+          else
+            $el.parent().html html
           $(document).trigger 'page:change'
         $(this).ajaxSubmit
           success: (html, responseText, xhr) ->
