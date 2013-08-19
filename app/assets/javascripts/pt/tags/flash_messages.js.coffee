@@ -30,6 +30,9 @@ processMessages = (event, xhr, settings) ->
 
     # $flash.delay(2500).slideUp 'fast', ->
     #   $(this).remove()
+  # debugger
+  # if xhr.status is 278
+  #   Turbolinks.visit( xhr.getResponseHeader( 'Location' ) )
 
 addFlashClasses = ->
   $ptFlashContainer = $ '[pt-flash-messages]'
@@ -40,8 +43,7 @@ pt.tags.push
     event: 'onload'
     callback: ->
       addFlashClasses()
-      $(document).ajaxSuccess processMessages
-      $(document).ajaxError processMessages
+      $(document).ajaxComplete processMessages
   ready:
     event: 'bind'
     callback: -> addFlashClasses()

@@ -68,7 +68,7 @@ tags =
         # Add the form to the dom
         $forms.last().after $formClone
 
-        $(document).trigger('page:change')
+        $(document).trigger 'page:change'
 
   dupeRemove:
     event: 'click'
