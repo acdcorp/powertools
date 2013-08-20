@@ -17,7 +17,7 @@ pt.tags.push
         $(this).ajaxSubmit
           success: (html, responseText, xhr) ->
             unless (type = xhr.getResponseHeader("content-type").match('text/javascript')) && type.length
-              addHtml html
+              addHtml(html) unless attr.remote is 'synced'
               $el.removeData 'ptRemoteSending'
           error: (response, status) ->
             switch response.status
