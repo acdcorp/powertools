@@ -109,10 +109,9 @@ class Powertools::Form
     # Maybe we should move it out of options and make it a
     # mandatory field we have to pass in when calling #new
     if model.id
-      model.updater = current_user
+      model.set_unrestricted_attributes updater: current_user
     else
-      model.creator = current_user
-      model.updater = current_user
+      model.set_unrestricted_attributes creator: current_user, updater: current_user
     end
     model.save!
     run_hook :after_save
