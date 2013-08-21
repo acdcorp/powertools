@@ -12,10 +12,8 @@ pt.tags.push
         $el = $ $el[0]
         attr = $el.ptAttr()
 
-        log $el.data()
-
-        if not $el.data('ptPopoverLoaded') and $el.data('ptPopoverFocused')
-          $el.data 'ptPopoverLoaded', true
+        if not $el.data('ptPopoverLoading') and $el.data('ptPopoverFocused')
+          $el.data 'ptPopoverLoading', true
           url = attr.popover
 
           #if not a url assume it's content
@@ -26,7 +24,7 @@ pt.tags.push
               trigger: 'manual'
               container: attr.popoverContainer or 'body'
               placement: attr.popoverPlacement or 'right'
-            $el.removeData 'ptPopoverLoaded'
+            $el.data 'ptPopoverLoaded', true
             $el.popover 'show' if $el.data 'ptPopoverFocused'
           else
             $.ajax
@@ -38,13 +36,10 @@ pt.tags.push
                   trigger: 'manual'
                   container: attr.popoverContainer or 'body'
                   placement: attr.popoverPlacement or 'right'
-                $el.removeData 'ptPopoverLoaded'
+                $el.data 'ptPopoverLoaded', true
                 $el.popover 'show' if $el.data 'ptPopoverFocused'
         else if $el.data('ptPopoverFocused')
-          if not attr.popoverContainer
-            $el.popover 'show'
-          else
-            $el.closest(attr.popoverContainer).find('.popover').popover 'show'
+          $el.popover 'show'
       , 500)
 
 
@@ -54,10 +49,10 @@ pt.tags.push
     callback: ->
       $el = $ this
       attr = $el.ptAttr()
-      $el.removeData 'ptPopoverLoaded'
       $el.removeData 'ptPopoverFocused'
-      if not attr.popoverContainer
-        $('body').find('.popover').remove()
-        # $el.popover 'hide'
-      else
-        $el.closest(attr.popoverContainer).find('.popover').remove()
+      if $el.data 'ptPopoverLoaded'
+        $el.popover 'hide'
+      # if not attr.popoverContainer
+      #   $('body').find('.popover').popover 'hide'
+      # else
+      #   $el.closest(attr.popoverContainer).popover 'hide'
