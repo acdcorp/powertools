@@ -33,12 +33,16 @@ tags =
             when 'password'
             , 'text'
             , 'textarea'
+            , 'tel'
               # Clear value
               $input.val ''
             when 'select-one', 'select-multiple'
               $input.find('option').removeAttr 'selected'
             when 'checkbox', 'radio'
               @checked = false
+
+          # Remove select2
+          $formClone.find('.select2-container').remove()
 
           # Update id
           if attrId = $input.attr 'id'
