@@ -40,6 +40,8 @@ ptChange = ->
           else
             value = $self.is(':checked')
 
+          if attr.loadContainer
+            $(attr.loadContainer).html('Loading...')
 
           data =
             field: name
