@@ -30,3 +30,15 @@ pt.tags.push
 
         $el.data 'ptDateLoaded', true
         $el.datetimepicker 'show'
+  daterange:
+    event: 'click'
+    callback: ->
+      $el     = $ this
+      attr    = $el.ptAttr()
+
+      unless $el.data 'ptDateRangeLoaded'
+        $el.daterangepicker
+          format: 'MM/DD/YYYY'
+
+        $el.data 'ptDateRangeLoaded', true
+        $el.click()
