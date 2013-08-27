@@ -2,7 +2,7 @@ class Powertools::Form
   include ActiveModel::Model
   include Hooks
 
-  define_hooks :initialize, :before_submit, :before_validation, :before_forms_save, :before_create, :before_save, :after_save
+  define_hooks :initialize, :before_submit, :before_validation, :before_forms_save, :before_create, :before_save, :after_save, :after_create
 
   attr_accessor :model, :store, :params, :options, :current_user
 
@@ -114,6 +114,7 @@ class Powertools::Form
       model.set_unrestricted_attributes creator: current_user, updater: current_user
     end
     model.save!
+    run_hook :after_create
     run_hook :after_save
   end
 
