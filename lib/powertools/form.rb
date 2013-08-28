@@ -108,7 +108,7 @@ class Powertools::Form
     run_hook :before_save
     # Maybe we should move it out of options and make it a
     # mandatory field we have to pass in when calling #new
-    if model.id
+    if model.id and model.changed?
       model.set_unrestricted_attributes updater: current_user
     else
       model.set_unrestricted_attributes creator: current_user, updater: current_user
