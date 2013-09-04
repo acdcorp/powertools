@@ -19,6 +19,7 @@ pt.tags.push
           #if not a url assume it's content
           if url.charAt(0)!="/"
             $el.popover
+              animation: false
               content: url
               html: true
               trigger: 'manual'
@@ -31,6 +32,7 @@ pt.tags.push
               url: url
               success: (html) ->
                 $el.popover
+                  animation: false
                   content: html
                   html: true
                   trigger: 'manual'
