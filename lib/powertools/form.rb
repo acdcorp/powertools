@@ -10,6 +10,24 @@ class Powertools::Form
     self.class.store ||= {}
   end
 
+  def inherit_stores_from_parent_class check_class
+    if check_class.superclass.name != 'PowertoolsForm'
+      # We need to merge the parent classes store
+      if check_class.superclass.respond_to? :store
+        parent_store  = check_class.superclass.store
+        # Loop through the parent store and merge in the store
+        parent_store.each do |key, data|
+          if store.key?(key) && store[key][:type] == :model
+            store[key][:fields].concat(data[:fields]).uniq!
+          else
+            store[key] = data
+          end
+        end
+        inherit_stores_from_parent_class check_class.superclass
+      end
+    end
+  end
+
   def initialize current_user, model = false, *options
     @current_user = current_user
     @model        = model
@@ -19,18 +37,7 @@ class Powertools::Form
     @persisted = (model.respond_to?(:id) && model.id) ? :edit : false
 
     # Do things with the parent class
-    if self.class.superclass.name != 'PowertoolsForm'
-      # We need to merge the parent classes store
-      parent_store  = self.class.superclass.store
-      # Loop through the parent store and merge in the store
-      parent_store.each do |key, data|
-        if store.key?(key) && store[key][:type] == :model
-          store[key][:fields].concat(data[:fields]).uniq!
-        else
-          store[key] = data
-        end
-      end
-    end
+    inherit_stores_from_parent_class self.class
 
     # Load data into models if any is sent
     store.each do |store_key, current_store|
@@ -104,7 +111,10 @@ class Powertools::Form
       end
     end
     model = send(model_name_sym)
-    run_hook :before_create unless model.id
+
+    has_model_id = model.id
+
+    run_hook :before_create unless has_model_id
     run_hook :before_save
     # Maybe we should move it out of options and make it a
     # mandatory field we have to pass in when calling #new
@@ -114,7 +124,7 @@ class Powertools::Form
       model.set_unrestricted_attributes creator: current_user, updater: current_user
     end
     model.save!
-    run_hook :after_create
+    run_hook :after_create unless has_model_id
     run_hook :after_save
   end
 

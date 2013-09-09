@@ -6,7 +6,7 @@
 #= require pt/bootstrap-datetimepicker
 # require twitter/bootstrap
 #= require pt/attr
-#= require pt/sugarjs
+#= require pt/plugin/sugarjs/v1.4.0
 #= require_tree ./tags
 
 window.pt ||= tags: []

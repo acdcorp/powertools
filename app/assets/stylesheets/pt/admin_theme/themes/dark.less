@@ -1,0 +1,122 @@
+.theme-dark {
+
+  /* General */
+
+  #content {
+    background-color: @theme-dark-gray-light;
+  }
+
+  /* Sidebar */
+
+  #sidebar {
+    background-color: @theme-dark-blue;
+    color: @theme-dark-bluegray;
+
+    /* General */
+    .close {
+      color: @theme-dark-bluegray;
+    }
+
+    /* Search Box */
+    .sidebar-search {
+      .input-box {
+        border-bottom-color: @theme-dark-blue-darker !important;
+      }
+
+      input, .submit {
+        background-color: @theme-dark-blue !important;
+        color: @theme-dark-bluegray;
+      }
+    }
+
+    /* Search Results */
+    .sidebar-search-results {
+      background-color: @theme-dark-blue-dark;
+      border-color: @theme-dark-blue-darker;
+    }
+
+    /* Navigation */
+
+    ul#nav {
+      li {
+        border-bottom-color: @theme-dark-blue-darker;
+
+        &.current, &.open {
+          background: @theme-dark-blue-light;
+        }
+
+        a {
+          color: @theme-dark-bluegray;
+          text-shadow: 0 1px 0 #000;
+
+          &:hover {
+            background: @theme-dark-blue-lighter;
+            color: #fff;
+          }
+
+          i {
+            color: @theme-dark-bluegray-dark;
+          }
+        }
+      } // eof li
+
+      ul.sub-menu {
+        background: @theme-dark-blue-dark;
+        border-bottom-color: @theme-dark-blue-darker;
+
+        li {
+          &.current {
+            background: @theme-dark-blue;
+          }
+
+          &.open {
+            background: @theme-dark-blue-dark;
+          }
+
+          a {
+            &:hover {
+              background: @theme-dark-blue;
+            }
+          }
+        }
+
+        ul.sub-menu {
+          li {
+            border-left-color: @theme-dark-blue-darker;
+
+            a {
+              color: @theme-dark-bluegray-dark;
+
+              &:hover {
+                background: @theme-dark-blue;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* Sidebar Titles */
+    .sidebar-title {
+      background-color: @theme-dark-blue-dark;
+      border-color: @theme-dark-blue-darker;
+      .box-shadow(0 1px 1px rgba(0, 0, 0, 0.2) inset);
+      color: @theme-dark-bluegray;
+    }
+
+    /* Notifications */
+    .notifications {
+      li {
+        border-bottom-color: @theme-dark-blue-darker;
+
+        a {
+          color: @theme-dark-bluegray;
+
+          &:hover {
+            color: @theme-dark-bluegray-light;
+          }
+        }
+      }
+    }
+  } // eof #sidebar
+}
