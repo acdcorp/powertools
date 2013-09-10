@@ -23,7 +23,7 @@ class Powertools::Form
             store[key] = data
           end
         end
-        inherit_stores_from_parent_class check_class.superclass
+        # inherit_stores_from_parent_class check_class.superclass
       end
     end
   end
@@ -34,7 +34,7 @@ class Powertools::Form
     @options      = options.extract_options!
     # This is so simple form knows how to set the correct name
     # for the submit button. i.e. create or edit
-    @persisted = (model.respond_to?(:id) && model.id) ? :edit : false
+    @persisted = (@model.respond_to?(:id) && @model.id) ? :edit : false
 
     run_hook :before_initialize
 
@@ -45,14 +45,14 @@ class Powertools::Form
     store.each do |store_key, current_store|
       case current_store[:type]
       when :model
-        if model && current_store[:class] == model.class.name
-          add_method model
+        if @model && current_store[:class] == @model.class.name
+          add_method @model
         else
-          model = Object::const_get(current_store[:class]).new
-          add_method model
+          new_model = Object::const_get(current_store[:class]).new
+          add_method new_model
         end
       when :form
-        if model && model.respond_to?(store_key)
+        if @model && @model.respond_to?(store_key)
           form = Object::const_get(current_store[:class]).new current_user, model.send(store_key)
           add_method form, store_key
         end
