@@ -53,7 +53,7 @@ class Powertools::Form
         end
       when :form
         if @model && @model.respond_to?(store_key)
-          form = Object::const_get(current_store[:class]).new current_user, model.send(store_key)
+          form = Object::const_get(current_store[:class]).new current_user, @model.send(store_key)
           add_method form, store_key
         end
       end
