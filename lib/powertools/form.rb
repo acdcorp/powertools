@@ -2,7 +2,7 @@ class Powertools::Form
   include ActiveModel::Model
   include Hooks
 
-  define_hooks :initialize, :before_submit, :before_validation, :before_forms_save, :before_create, :before_save, :after_save, :after_create
+  define_hooks :before_initialize, :initialize, :before_submit, :before_validation, :before_forms_save, :before_create, :before_save, :after_save, :after_create
 
   attr_accessor :model, :store, :params, :options, :current_user
 
@@ -28,13 +28,15 @@ class Powertools::Form
     end
   end
 
-  def initialize current_user, model = false, *options
+  def initialize current_user, current_model = false, *options
     @current_user = current_user
-    @model        = model
+    @model        = current_model
     @options      = options.extract_options!
     # This is so simple form knows how to set the correct name
     # for the submit button. i.e. create or edit
     @persisted = (model.respond_to?(:id) && model.id) ? :edit : false
+
+    run_hook :before_initialize
 
     # Do things with the parent class
     inherit_stores_from_parent_class self.class
