@@ -23,7 +23,7 @@ class Powertools::Form
             store[key] = data
           end
         end
-        # inherit_stores_from_parent_class check_class.superclass
+        inherit_stores_from_parent_class check_class.superclass
       end
     end
   end
