@@ -168,7 +168,9 @@ class Powertools::Form
       # This is if we are adding _form methods
       # current_form = send(current_store[:form_name])
       current_form = send(params_key)
-      current_form.set_params params, current_form.class.model_name.to_s.underscore.to_sym
+      class_name = current_form.class.model_name.to_s.underscore.to_sym
+      current_form.set_params params, class_name
+      model.send("#{params_key}=", current_form.send(class_name))
     else
       if respond_to? "#{params_key}="
         send("#{params_key}=", params)
