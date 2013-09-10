@@ -48,8 +48,8 @@ class Powertools::Form
         if @model && current_store[:class] == @model.class.name
           add_method @model
         else
-          new_model = Object::const_get(current_store[:class]).new
-          add_method new_model
+          @model = Object::const_get(current_store[:class]).new
+          add_method @model
         end
       when :form
         if @model && @model.respond_to?(store_key)
