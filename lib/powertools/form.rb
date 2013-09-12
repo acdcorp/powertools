@@ -126,8 +126,11 @@ class Powertools::Form
       model.set_unrestricted_attributes creator: current_user, updater: current_user
     end
     model.save!
-    run_hook :after_create unless has_model_id
-    run_hook :after_save
+
+    if model.id
+      run_hook :after_create unless has_model_id
+      run_hook :after_save
+    end
   end
 
   def set_params params, params_key = false
