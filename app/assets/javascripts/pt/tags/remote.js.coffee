@@ -15,6 +15,8 @@ pt.tags.push
           $(document).trigger 'page:change'
 
         $(this).ajaxSubmit
+          beforeSubmit: ->
+            $('.form-actions',$el).html('Saving...')
           success: (html, responseText, xhr) ->
             unless (type = xhr.getResponseHeader("content-type").match('text/javascript')) && type.length
               addHtml(html) unless attr.remote is 'synced'

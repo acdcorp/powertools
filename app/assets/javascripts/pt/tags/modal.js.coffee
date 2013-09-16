@@ -18,9 +18,14 @@ pt.tags.push
           callback: ->
             $body = $('#pt-modal-body')
 
+            modal_footer = $('.modal-footer')
+            footer_content = modal_footer.html()
             $body.find('form').ajaxSubmit
+              beforeSubmit: ->
+                modal_footer.html('Saving...')            
               data: pt_modal: true
               error: (request) ->
+                modal_footer.html(footer_content)    
                 $body.html request.responseText
                 $(document).trigger 'page:change'
               success: (html, msg, xhr) ->
