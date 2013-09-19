@@ -173,7 +173,8 @@ class Powertools::Form
       current_form = send(params_key)
       class_name = current_form.class.model_name.to_s.underscore.to_sym
       current_form.set_params params, class_name
-      model.send("#{params_key}=", current_form.send(class_name))
+      # model.send("build_#{params_key}") unless model.send(params_key).present?
+      # model.send("#{params_key}=", current_form.send(class_name))
     else
       if respond_to? "#{params_key}="
         send("#{params_key}=", params)
