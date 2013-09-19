@@ -58,3 +58,9 @@ pt.tags.push
       #   $('body').find('.popover').popover 'hide'
       # else
       #   $el.closest(attr.popoverContainer).popover 'hide'
+
+pt.tags.push
+  popover:
+    event: 'click'
+    callback: ->
+      $(".popover").hide();
