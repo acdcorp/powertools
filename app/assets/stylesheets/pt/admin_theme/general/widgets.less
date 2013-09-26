@@ -81,6 +81,12 @@
 					padding-right: 15px;
 				}
 			}
+
+			&.widget-deeper {
+				background-color: @grayLighter;
+				//border-top: 1px solid #B9B9B9;
+				.box-shadow(0 1px 1px rgba(0, 0, 0, 0.05) inset);
+			}
 		}
 
 		.widget-header + .widget-content.no-padding {
@@ -88,7 +94,7 @@
 		}
 
 		&.box-shadow {
-			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+			.box-shadow(0 1px 1px rgba(0, 0, 0, 0.05));
 			border-bottom-color: darken(@widgetBoxBorder, 5%);
 		}
 	}

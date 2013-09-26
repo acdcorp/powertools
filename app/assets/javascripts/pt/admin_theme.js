@@ -146,14 +146,56 @@ var App = function() {
   }
 
   var handleResizeEvents = function() {
-    var resizeLayout = _resizeEvents.debounce(30);
+    var resizeLayout = debounce(_resizeEvents, 30);
     $(window).resize(resizeLayout);
   }
 
   // Executed only every 30ms
   var _resizeEvents = function() {
     calculateHeight();
+
+    // Realign headers from DataTables (otherwise header will have an offset)
+    // Only affects horizontal scrolling DataTables
+    if ($.fn.dataTable) {
+      var tables = $.fn.dataTable.fnTables(true);
+      $(tables).each(function() {
+        if (typeof $(this).data('horizontalWidth') != 'undefined') {
+          $(this).dataTable().fnAdjustColumnSizing();
+        }
+      });
+    }
   }
+
+  /**
+   * Creates and returns a new debounced version of the passed
+   * function which will postpone its execution until after wait
+   * milliseconds have elapsed since the last time it was invoked.
+   *
+   * Source: http://underscorejs.org/
+   */
+  var debounce = function(func, wait, immediate) {
+    var timeout, args, context, timestamp, result;
+    return function() {
+      context = this;
+      args = arguments;
+      timestamp = new Date();
+      var later = function() {
+        var last = (new Date()) - timestamp;
+        if (last < wait) {
+          timeout = setTimeout(later, wait - last);
+        } else {
+          timeout = null;
+          if (!immediate) result = func.apply(context, args);
+        }
+      };
+      var callNow = immediate && !timeout;
+      if (!timeout) {
+        timeout = setTimeout(later, wait);
+      }
+      if (callNow) result = func.apply(context, args);
+      return result;
+    };
+  };
 
   /**
    * Swipe Events
@@ -284,7 +326,17 @@ var App = function() {
 
         if (android_chrome) {
           var wheelStepInt = 100;
-          $('#sidebar').attr('style', 'position: absolute !important;').css('margin-left', '-250px').css('margin-top', '-52px;');
+          $('#sidebar').attr('style', 'position: absolute !important;');
+
+          // Fix for really high tablet resolutions
+          if ($(window).width() > 979) {
+            $('#sidebar').css('margin-top', '-52px');
+          }
+
+          // Only hide sidebar on phones
+          if ($(window).width() <= 767) {
+            $('#sidebar').css('margin-left', '-250px').css('margin-top', '-52px');
+          }
         } else {
           var wheelStepInt = 7;
         }
@@ -330,37 +382,39 @@ var App = function() {
       });
     }
 
-    // Handles click-event on switcher
-    $('#theme-switcher label').click(function() {
-      var self = $(this).find('input');
-      var theme = self.data('theme');
-
-      _changeTheme(theme);
-    });
-
-    // Checks, if cookie exists
-    // (If user actually changed the theme via switcher)
-    if ($.cookie('theme')) {
-      var cookie_theme = $.cookie('theme');
-      _changeTheme(cookie_theme);
-
-      // To select the right switch
-      $('#theme-switcher input').each(function() {
-        var self = $(this);
+    if ($.cookie) {
+      // Handles click-event on switcher
+      $('#theme-switcher label').click(function() {
+        var self = $(this).find('input');
         var theme = self.data('theme');
 
-        if (theme == cookie_theme) {
-          self.parent().addClass('active');
-        } else {
-          self.parent().removeClass('active');
-        }
+        _changeTheme(theme);
       });
 
-      // Button styles
-      if (cookie_theme == 'dark') {
-        _toggleBtnInverse('add');
-      } else {
-        _toggleBtnInverse('remove');
+      // Checks, if cookie exists
+      // (If user actually changed the theme via switcher)
+      if ($.cookie('theme')) {
+        var cookie_theme = $.cookie('theme');
+        _changeTheme(cookie_theme);
+
+        // To select the right switch
+        $('#theme-switcher input').each(function() {
+          var self = $(this);
+          var theme = self.data('theme');
+
+          if (theme == cookie_theme) {
+            self.parent().addClass('active');
+          } else {
+            self.parent().removeClass('active');
+          }
+        });
+
+        // Button styles
+        if (cookie_theme == 'dark') {
+          _toggleBtnInverse('add');
+        } else {
+          _toggleBtnInverse('remove');
+        }
       }
     }
   }
@@ -395,7 +449,15 @@ var App = function() {
   var handleCheckableTables = function() {
     $( '.table-checkable thead th.checkbox-column :checkbox' ).on('change', function() {
       var checked = $( this ).prop( 'checked' );
-      $( this ).parents('table').children('tbody').each(function(i, tbody) {
+
+      var data_horizontalWidth = $(this).parents('table.table-checkable').data('horizontalWidth');
+      if (typeof data_horizontalWidth != 'undefined') {
+        var $checkable_table_body = $( this ).parents('.dataTables_scroll').find('.dataTables_scrollBody tbody');
+      } else {
+        var $checkable_table_body = $( this ).parents('table').children('tbody');
+      }
+
+      $checkable_table_body.each(function(i, tbody) {
         $(tbody).find('.checkbox-column').each(function(j, cb) {
           var cb_self = $( ':checkbox', $(cb) ).prop( "checked", checked ).trigger('change');
 
@@ -460,23 +522,27 @@ var App = function() {
     $('.project-switcher-btn').click(function (e) {
       e.preventDefault();
 
+      _hideVisibleProjectSwitcher(this);
+
       $(this).parent().toggleClass('open');
 
-      $('#project-switcher').slideToggle(200, function() {
+      // Define default project switcher
+      var data_projectSwitcher = _getProjectSwitcherID(this);
+
+      $(data_projectSwitcher).slideToggle(200, function() {
         $(this).toggleClass('open');
       });
     });
 
     // Hide project switcher on click elsewhere the element
     $('body').click(function(e) {
-      if (e.target.id != 'project-switcher' && e.target.className.split(' ')[0] != 'project-switcher-btn'
-        && $(e.target).parents().index($('#project-switcher')) == -1 && $(e.target).parents().index($('.project-switcher-btn')) == -1) {
-        if ($('#project-switcher').is(':visible')) {
-          $('#project-switcher').slideUp(200, function() {
-            $(this).toggleClass('open')
-            $('.project-switcher-btn').parent().removeClass('open');
-          });
-        }
+      var classes = e.target.className.split(' ');
+
+      if ($.inArray('project-switcher', classes) == -1 && $.inArray('project-switcher-btn', classes) == -1
+        && $(e.target).parents().index($('.project-switcher')) == -1 && $(e.target).parents('.project-switcher-btn').length == 0) {
+
+        _hideVisibleProjectSwitcher();
+
       }
     });
 
@@ -484,34 +550,74 @@ var App = function() {
      * Horizontal scrollbars
      */
 
-    $('#project-switcher #frame').slimScrollHorizontal({
-      width: '100%',
-      alwaysVisible: true,
-      color: '#fff',
-      opacity: '0.2',
-      size: '5px'
+    $('.project-switcher #frame').each(function () {
+      $(this).slimScrollHorizontal({
+        width: '100%',
+        alwaysVisible: true,
+        color: '#fff',
+        opacity: '0.2',
+        size: '5px'
+      });
     });
+
+    var _hideVisibleProjectSwitcher = function(el) {
+      $('.project-switcher').each(function () {
+        var $projectswitcher = $(this);
+
+        // Only slide up visible project switcher
+        if ($projectswitcher.is(':visible')) {
+          var data_projectSwitcher = _getProjectSwitcherID(el);
+
+          if (data_projectSwitcher != ('#' + $projectswitcher.attr('id'))) {
+            $(this).slideUp(200, function() {
+              $(this).toggleClass('open');
+
+              // Remove all clicked states from toggle buttons
+              $('.project-switcher-btn').each(function () {
+                // Define default project switcher
+                var data_projectSwitcher = _getProjectSwitcherID(this);
+
+                if (data_projectSwitcher == ('#' + $projectswitcher.attr('id'))) {
+                  $(this).parent().removeClass('open');
+                }
+              });
+            });
+          }
+        }
+      });
+    }
+
+    var _getProjectSwitcherID = function(el) {
+      // Define default project switcher
+      var data_projectSwitcher = $(el).data('projectSwitcher');
+      if (typeof data_projectSwitcher == 'undefined') {
+        data_projectSwitcher = '#project-switcher';
+      }
+
+      return data_projectSwitcher;
+    }
   }
 
   /**
    * Calculates project switcher width
    */
   var handleProjectSwitcherWidth = function() {
-    // To fix the hidden-width()-bug
-    var $projectswitcher = $('#project-switcher');
-    $projectswitcher.css('position', 'absolute').css('margin-top', '-1000px').show();
+    $('.project-switcher').each(function () {
+      // To fix the hidden-width()-bug
+      var $projectswitcher = $(this);
+      $projectswitcher.css('position', 'absolute').css('margin-top', '-1000px').show();
 
-    // Iterate through each li
-    var total_width = 0;
-    $('#project-switcher ul li').each(function() {
-      total_width += $(this).outerWidth(true) + 15;
+      // Iterate through each li
+      var total_width = 0;
+      $('ul li', this).each(function() {
+        total_width += $(this).outerWidth(true) + 15;
+      });
+
+      // And finally hide it again
+      $projectswitcher.css('position', 'relative').css('margin-top', '0').hide();
+
+      $('ul', this).width(total_width);
     });
-
-    $projectswitcher.css('position', 'relative').css('margin-top', '0').hide();
-
-    //total_width += 120;
-
-    $('#project-switcher ul').width(total_width);
   }
 
   //* END:CORE HANDLERS *//
@@ -528,7 +634,7 @@ var App = function() {
       handleSidebarMenu(); // Handles navigation
       // handleScrollbars(); // Adds styled scrollbars for sidebar on desktops
       // handleThemeSwitcher(); // Bright/ Dark Switcher
-      handleWidgets(); // Handle collapse and expand from widgets
+      // handleWidgets(); // Handle collapse and expand from widgets
       // handleCheckableTables(); // Checks all checkboxes in a table if master checkbox was toggled
       handleTabs(); // Fixes tab height
       handleScrollers(); // Initializes slimscroll for scrollable widgets
@@ -536,11 +642,11 @@ var App = function() {
     },
 
     getLayoutColorCode: function(name) {
-       if (layoutColorCodes[name]) {
+      if (layoutColorCodes[name]) {
         return layoutColorCodes[name];
-       } else {
+      } else {
         return '';
-       }
+      }
     },
 
     // Wrapper function to block elements (indicate loading)
