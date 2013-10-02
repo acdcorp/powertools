@@ -4,6 +4,7 @@
  * Copyright 2012 Stefan Petre
  * Improvements by Andrew Rowls
  * Improvements by Sébastien Malot
+ * Improvements by Yun Lai
  * Project URL : http://www.malot.fr/bootstrap-datetimepicker
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +40,7 @@
     this.language = this.language in dates ? this.language : "en";
     this.isRTL = dates[this.language].rtl || false;
     this.formatType = options.formatType || this.element.data('format-type') || 'standard';
-    this.format = DPGlobal.parseFormat(options.format || this.element.data('date-format') || DPGlobal.getDefaultFormat(this.formatType, 'input'), this.formatType);
+    this.format = DPGlobal.parseFormat(options.format || this.element.data('date-format') || dates[this.language].format || DPGlobal.getDefaultFormat(this.formatType, 'input'), this.formatType);
     this.isInline = false;
     this.isVisible = false;
     this.isInput = this.element.is('input');
@@ -81,6 +82,28 @@
     }
     this.maxView = DPGlobal.convertViewMode(this.maxView);
 
+        this.wheelViewModeNavigation = false;
+        if('wheelViewModeNavigation' in options){
+            this.wheelViewModeNavigation = options.wheelViewModeNavigation;
+        }else if('wheelViewModeNavigation' in this.element.data()){
+            this.wheelViewModeNavigation = this.element.data('view-mode-wheel-navigation');
+        }
+
+        this.wheelViewModeNavigationInverseDirection = false;
+
+        if('wheelViewModeNavigationInverseDirection' in options){
+            this.wheelViewModeNavigationInverseDirection = options.wheelViewModeNavigationInverseDirection;
+        }else if('wheelViewModeNavigationInverseDirection' in this.element.data()){
+            this.wheelViewModeNavigationInverseDirection = this.element.data('view-mode-wheel-navigation-inverse-dir');
+        }
+
+        this.wheelViewModeNavigationDelay = 100;
+        if('wheelViewModeNavigationDelay' in options){
+            this.wheelViewModeNavigationDelay = options.wheelViewModeNavigationDelay;
+        }else if('wheelViewModeNavigationDelay' in this.element.data()){
+            this.wheelViewModeNavigationDelay = this.element.data('view-mode-wheel-navigation-delay');
+        }
+
     this.startViewMode = 2;
     if ('startView' in options) {
       this.startViewMode = options.startView;
@@ -111,6 +134,17 @@
                 click: $.proxy(this.click, this),
                 mousedown: $.proxy(this.mousedown, this)
               });
+
+        if(this.wheelViewModeNavigation)
+        {
+            if($.fn.mousewheel)
+            {
+                this.picker.on({mousewheel: $.proxy(this.mousewheel,this)});
+            }else
+            {
+                console.log("Mouse Wheel event is not supported. Please include the jQuery Mouse Wheel plugin before enabling this option");
+            }
+        }
 
     if (this.isInline) {
       this.picker.addClass('datetimepicker-inline');
@@ -272,6 +306,7 @@
     remove: function() {
       this._detachEvents();
       this.picker.remove();
+      delete this.picker;
       delete this.element.data().datetimepicker;
     },
 
@@ -693,6 +728,41 @@
           break;
       }
     },
+
+        mousewheel: function(e){
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            if(this.wheelPause)
+            {
+                return;
+            }
+
+            this.wheelPause = true;
+
+            var originalEvent = e.originalEvent;
+
+            var delta = originalEvent.wheelDelta;
+
+            var mode = delta > 0 ? 1:(delta === 0)?0:-1;
+
+            if(this.wheelViewModeNavigationInverseDirection)
+            {
+                mode = -mode;
+            }
+
+            this.showMode(mode);
+
+            setTimeout($.proxy(function(){
+
+                this.wheelPause = false
+
+            },this),this.wheelViewModeNavigationDelay);
+
+
+
+        },
 
     click: function(e) {
       e.stopPropagation();
@@ -1360,7 +1430,13 @@
           // second
           s: date.getUTCSeconds()
         };
-                val.H  = (val.h%12==0? 12 : val.h%12);
+
+        if (dates[language].meridiem.length==2) {
+          val.H  = (val.h%12==0? 12 : val.h%12);
+        }
+        else {
+          val.H  = val.h;
+        }
                 val.HH = (val.H < 10 ? '0' : '') + val.H;
                 val.P  = val.p.toUpperCase();
         val.hh = (val.h < 10 ? '0' : '') + val.h;

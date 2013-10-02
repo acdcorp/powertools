@@ -1,6 +1,11 @@
 window.pt ||= tags: []
 
 pt.tags.push
+  'page:change':
+    event: 'bind'
+    callback: ->
+      $('[pt-datetime]').attr('readonly',true)
+
   datetime:
     event: 'click'
     callback: ->
