@@ -120,6 +120,12 @@ class Powertools::Form
     run_hook :before_save
     # Maybe we should move it out of options and make it a
     # mandatory field we have to pass in when calling #new
+    
+    #i don't think we need to proceed if there is nothing to save
+    if model.id and !model.changed?
+      return
+    end
+
     if model.id and model.changed?
       model.set_unrestricted_attributes updater: current_user
     else
