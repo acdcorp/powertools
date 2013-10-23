@@ -1,6 +1,11 @@
 window.pt ||= tags: []
 
 pt.tags.push
+  'page:change':
+    event: 'bind'
+    callback: ->
+      $('[pt-datetime]').attr('readonly',true)
+
   datetime:
     event: 'click'
     callback: ->
@@ -27,6 +32,7 @@ pt.tags.push
           showMeridian: true
           autoclose: true
           minView: 2
+          startView: parseInt(attr.dateStartView) or 2
 
         $el.data 'ptDateLoaded', true
         $el.datetimepicker 'show'
