@@ -16,12 +16,18 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,vendor,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
   s.add_dependency "rails", ">= 4.0.0"
-  s.add_dependency "jquery-rails"
   s.add_dependency 'coffee-rails', '>= 4.0.0'
   s.add_dependency 'therubyracer'
-  s.add_dependency 'less-rails'
   s.add_dependency 'hooks'
-  s.add_dependency 'twitter-bootstrap-rails'
+  s.add_dependency 'jquery-rails'
+  s.add_dependency 'less'
+  s.add_dependency 'less-rails'
+  s.add_dependency 'less-rails-bootstrap', '>=3.0.3'
+  s.add_dependency 'less-rails-fontawesome', '>=0.5.1'
+  s.add_dependency 'simple_form', '>=3.0.0'
+  # s.add_dependency 'twitter-bootstrap-rails'
+  # s.add_dependency 'less-rails-bootstrap'
+  # s.add_dependency 'less-rails-fontawesome'
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "rspec-rails"

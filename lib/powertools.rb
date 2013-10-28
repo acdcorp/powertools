@@ -30,6 +30,10 @@ require 'powertools/form'
 require 'powertools/form_input'
 require 'powertools/unrestricted_attributes'
 require 'powertools/generators/history_tracker_generator'
+require 'simple_form'
+require 'less-rails-bootstrap'
+require 'less-rails-fontawesome'
+
 
 module Powertools
 end
