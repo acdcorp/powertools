@@ -1,4 +1,8 @@
-# desc "Explaining what the task does"
-# task :powertools do
-#   # Task goes here
-# end
+require 'bower.rake'
+
+namespace :pt do
+  desc 'install bower scripts'
+  task :bower_install do
+
+  end
+end

@@ -1,0 +1,13 @@
+{
+  "name": "jquery_ujs",
+  "homepage": "https://github.com/rails/jquery-ujs",
+  "_release": "0f913da9b9",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "0f913da9b9df2d7d2c4a32275b7d9919792dc25f"
+  },
+  "_source": "git@github.com:rails/jquery-ujs.git",
+  "_target": "*",
+  "_originalSource": "git@github.com:rails/jquery-ujs.git"
+}

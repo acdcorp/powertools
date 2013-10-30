@@ -1,0 +1,7 @@
+group :vendor, assets_path: 'assets' do
+  asset 'jquery', '1.10.2'
+  asset 'breakpoints', 'git@github.com:xoxco/breakpoints.git'
+  asset 'slimscroll', 'git@github.com:rochal/jQuery-slimScroll.git'
+  asset 'turbolinks', 'git@github.com:rails/turbolinks.git'
+  asset 'jquery_ujs', 'git@github.com:rails/jquery-ujs.git'
+end
