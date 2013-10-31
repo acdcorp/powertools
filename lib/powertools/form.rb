@@ -122,7 +122,7 @@ class Powertools::Form
     # mandatory field we have to pass in when calling #new
     if model.id and model.changed?
       model.set_unrestricted_attributes updater: current_user
-    else
+    elsif model.id.blank?
       model.set_unrestricted_attributes creator: current_user, updater: current_user
     end
     model.save!
