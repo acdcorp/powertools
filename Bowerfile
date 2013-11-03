@@ -4,5 +4,6 @@ group :vendor, assets_path: 'assets' do
   asset 'slimscroll', 'git@github.com:rochal/jQuery-slimScroll.git'
   asset 'turbolinks', 'git@github.com:rails/turbolinks.git'
   asset 'jquery_ujs', 'git@github.com:rails/jquery-ujs.git'
+  asset 'html5shiv'
   asset 'bootstrap'
 end

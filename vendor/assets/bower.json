@@ -6,6 +6,7 @@
     "slimscroll": "git@github.com:rochal/jQuery-slimScroll.git",
     "turbolinks": "git@github.com:rails/turbolinks.git",
     "jquery_ujs": "git@github.com:rails/jquery-ujs.git",
+    "html5shiv": "latest",
     "bootstrap": "latest"
   }
 }
