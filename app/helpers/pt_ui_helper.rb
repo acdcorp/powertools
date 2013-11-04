@@ -53,7 +53,7 @@ module PtUiHelper
               end
             end
             div class: "widget-content #{options.key?(:no_padding) ? 'no-padding' : ''}" do
-              div class: 'row' do
+              div class: 'row-fluid' do
                 helper.capture_haml 'div', {}, &block
               end
             end
