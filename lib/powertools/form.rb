@@ -149,13 +149,11 @@ class Powertools::Form
               # Grab the model
               current_model = send(params_key)
 
-              # Make sure we haven't override the save method before
-              # setting the value on the model
-              if not respond_to? "#{key}="
-                current_model.send("#{key}=", params[key])
               # Use our own override method
-              else
+              if self.respond_to? "#{key}=" and key.to_s != 'model'
                 send("#{key}=", params[key])
+              else
+                current_model.send("#{key}=", params[key])
               end
             elsif respond_to? "#{key}="
               send("#{key}=", value)
