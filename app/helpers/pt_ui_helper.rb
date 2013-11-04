@@ -39,7 +39,7 @@ module PtUiHelper
     helper = self
 
     html do
-      div class: 'row-fluid' do
+      div class: 'row' do
         div class: 'col-md-12' do
           div class: 'widget box' do
             if options.key? :header
@@ -53,7 +53,7 @@ module PtUiHelper
               end
             end
             div class: "widget-content #{options.key?(:no_padding) ? 'no-padding' : ''}" do
-              div class: 'row-fluid' do
+              div class: 'row' do
                 helper.capture_haml 'div', {}, &block
               end
             end
