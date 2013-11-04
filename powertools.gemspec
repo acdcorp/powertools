@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'coffee-rails', '>= 4.0.0'
   s.add_dependency 'therubyracer'
   s.add_dependency 'hooks'
+  s.add_dependency 'mab'
   s.add_dependency 'jquery-rails'
   s.add_dependency 'less'
   s.add_dependency 'less-rails'

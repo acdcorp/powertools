@@ -33,7 +33,7 @@ require 'powertools/generators/history_tracker_generator'
 require 'simple_form'
 require 'less-rails-bootstrap'
 require 'less-rails-fontawesome'
-
+require 'mab'
 
 module Powertools
 end

@@ -10,6 +10,7 @@ PATH
       less-rails
       less-rails-bootstrap (>= 3.0.3)
       less-rails-fontawesome (>= 0.5.1)
+      mab
       rails (>= 4.0.0)
       simple_form (>= 3.0.0)
       therubyracer
@@ -73,6 +74,7 @@ GEM
       less-rails (>= 2.1.7)
       railties (>= 3.1.1)
     libv8 (3.16.14.3)
+    mab (0.0.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
