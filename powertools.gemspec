@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-rails'
   s.add_dependency 'less'
   s.add_dependency 'less-rails'
-  s.add_dependency 'less-rails-bootstrap', '>=3.0.3'
+  s.add_dependency 'less-rails-bootstrap', '>=3.0.5'
   s.add_dependency 'less-rails-fontawesome', '>=0.5.1'
   s.add_dependency 'simple_form', '>=3.0.0'
   s.add_dependency 'bower-rails-pt', '~> 0.5.0'

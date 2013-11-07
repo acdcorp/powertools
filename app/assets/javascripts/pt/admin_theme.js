@@ -1,6 +1,5 @@
 //= require pt/breakpoints/breakpoints
 //= require pt/slimscroll/jquery.slimscroll
-//= require pt/bootstrap/dist/js/bootstrap
 
 /**
 Core script to handle the entire layout and base functions
