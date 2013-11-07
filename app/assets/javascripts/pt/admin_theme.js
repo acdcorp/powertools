@@ -1,5 +1,6 @@
 //= require pt/breakpoints/breakpoints
 //= require pt/slimscroll/jquery.slimscroll
+//= require twitter/bootstrap
 
 /**
 Core script to handle the entire layout and base functions
