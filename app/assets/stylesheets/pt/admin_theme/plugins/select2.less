@@ -611,3 +611,12 @@ disabled look for disabled choices in the results dropdown
     border-color: #356635;
     color: #356635;
 }
+
+/**
+ * Bug Fixes
+ * @see: https://github.com/ivaynberg/select2/issues/1727
+ **/
+
+input[type="text"].select2-offscreen {
+    padding: 0 !important;
+}

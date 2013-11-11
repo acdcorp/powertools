@@ -68,9 +68,14 @@
 			margin: 0;
 		}
 
-		.input-icon input {
-			border-left: 2px solid @mainColor;
+		.input-icon {
+			position: relative;
+
+			input {
+				border-left: 2px solid @mainColor;
+			}
 		}
+
 		.has-error .input-icon input {
 			border-left-color: #b94a48;
 		}

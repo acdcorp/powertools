@@ -60,8 +60,8 @@
 					.btn {
 						font-size: @baseFontSize;
 						font-size: 13px;
-						padding: 8px 7px;
-						padding-top: 8px;
+						//padding: 8px 7px; // Made problems in Firefox, so switched to line-height
+						line-height: 35px;
 						margin-top: 1px;
 					}
 				}
@@ -115,6 +115,10 @@
 		width: 100%;
 		border-bottom: 1px solid @widgetBoxBorder;
 		border-top: 1px solid #fff;
+
+		&.bright {
+			border-bottom-color: @grayMedium;
+		}
 	}
 
 	.widget-content > .divider {
