@@ -19,8 +19,14 @@ pt.tags.push
             $('.form-actions',$el).html('Saving...')
           success: (html, responseText, xhr) ->
             unless (type = xhr.getResponseHeader("content-type").match('text/javascript')) && type.length
-              addHtml(html) unless attr.remote is 'synced'
-              $el.removeData 'ptRemoteSending'
+              switch xhr.status
+                when 278
+                  url = xhr.getResponseHeader('location')
+                  addHtml("Redirecting you to #{url}")
+                  window.location = url
+                else
+                  addHtml(html) unless attr.remote is 'synced'
+                  $el.removeData 'ptRemoteSending'
           error: (response, status) ->
             switch response.status
               # This error code just means the didn't send all required fields,
