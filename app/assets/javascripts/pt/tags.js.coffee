@@ -3,6 +3,7 @@
 #= require pt/jquery.maskedinput
 #= require pt/jquery.form
 #= require pt/select2
+#= require pt/jGrowl/jqgrowl.js
 #= require pt/bootstrap-datetimepicker
 # require twitter/bootstrap
 #= require pt/attr

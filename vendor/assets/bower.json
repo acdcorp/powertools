@@ -8,5 +8,7 @@
     "jquery_turbolinks": "git@github.com:kossnocorp/jquery.turbolinks.git",
     "jquery_ujs": "git@github.com:rails/jquery-ujs.git",
     "html5shiv": "latest",
+    "bootstrap": "latest",
+    "jGrowl": "git@github.com:richb-hanover/jqGrowl.git"
   }
 }

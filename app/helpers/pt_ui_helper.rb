@@ -39,7 +39,7 @@ module PtUiHelper
     helper = self
 
     html do
-      div class: 'row' do
+      div class: 'row', id: options[:id] do
         div class: 'col-md-12' do
           div class: 'widget box' do
             if options.key? :header

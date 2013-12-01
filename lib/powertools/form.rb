@@ -59,11 +59,40 @@ class Powertools::Form
       end
     end
 
+    # For displaying the fields in simple_form
+    add_inputs_as
+
     run_hook :initialize
   end
 
   def persisted?
     @persisted
+  end
+
+  def add_inputs_as
+    store.each do |store_key, current_store|
+      if current_store.key? :inputs_as
+        main_object = self
+        current_store[:inputs_as].each do |field, block|
+          if current_store[:type] == :model
+            self.metaclass.send(:define_method, "#{field}_input") do
+              type = main_object.instance_eval(&block)
+              Powertools::FormInput.new type if type
+            end
+          else
+            send(store_key).metaclass.send(:define_method, "#{field}_input") do
+              type = main_object.instance_eval(&block)
+              Powertools::FormInput.new type if type
+            end
+          end
+        end
+      end
+    end
+  end
+
+  # http://codeblog.dhananjaynene.com/2010/01/dynamically-adding-methods-with-metaprogramming-ruby-and-python/
+  def metaclass
+    class << self; self; end
   end
 
   def add_method method_object, method_name = false
@@ -185,6 +214,20 @@ class Powertools::Form
 
     def store
       @store ||= {}
+    end
+
+    def input_as name, &block
+      names = name.split '.'
+      if names.count < 2
+        self.model_name.to_s.underscore.to_sym
+        inputs_as = (store[self.model_name.to_s.underscore.to_sym][:inputs_as] ||= {})
+        inputs_as[name.to_sym] = block
+      else
+        form_name = names.first.to_sym
+        field     = names.last.to_sym
+        inputs_as = (store[form_name][:inputs_as] ||= {})
+        inputs_as[field] = block
+      end
     end
 
     def delegate *fields
