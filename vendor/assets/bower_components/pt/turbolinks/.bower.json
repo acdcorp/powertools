@@ -1,12 +1,12 @@
 {
   "name": "turbolinks",
   "homepage": "https://github.com/rails/turbolinks",
-  "version": "1.3.0",
-  "_release": "1.3.0",
+  "version": "1.3.1",
+  "_release": "1.3.1",
   "_resolution": {
     "type": "version",
-    "tag": "v1.3.0",
-    "commit": "1427466b077fbf26de7023e07ff35f234249e981"
+    "tag": "v1.3.1",
+    "commit": "2a60e8c59ea9020230ba5793c71dd2f466f6d997"
   },
   "_source": "git@github.com:rails/turbolinks.git",
   "_target": "*",

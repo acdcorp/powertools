@@ -1,7 +1,0 @@
-test/public/vendor/jquery.js
-*.swp
-*.swo
-.#*
-.bundle
-.DS_Store
-*~

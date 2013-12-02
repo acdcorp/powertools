@@ -7,5 +7,6 @@ group :vendor, assets_path: 'assets' do
   asset 'jquery_ujs', 'git@github.com:rails/jquery-ujs.git'
   asset 'html5shiv'
   asset 'bootstrap'
-  asset 'jGrowl', 'git@github.com:richb-hanover/jqGrowl.git'
+  asset 'jGrowl', 'git@github.com:stanlemon/jGrowl.git'
+  asset 'jquery_cookie', 'git@github.com:carhartl/jquery-cookie.git'
 end

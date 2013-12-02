@@ -1,13 +1,14 @@
 {
   "name": "jGrowl",
-  "homepage": "https://github.com/richb-hanover/jqGrowl",
-  "_release": "20e1b89d69",
+  "homepage": "https://github.com/stanlemon/jGrowl",
+  "version": "1.2.13",
+  "_release": "1.2.13",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "20e1b89d69e81efcbdd983ae5b8b8e4a682a4045"
+    "type": "version",
+    "tag": "1.2.13",
+    "commit": "3b3f66cde511fabbef8ec0bcabbfabc21e69dcc7"
   },
-  "_source": "git@github.com:richb-hanover/jqGrowl.git",
+  "_source": "git@github.com:stanlemon/jGrowl.git",
   "_target": "*",
-  "_originalSource": "git@github.com:richb-hanover/jqGrowl.git"
+  "_originalSource": "git@github.com:stanlemon/jGrowl.git"
 }

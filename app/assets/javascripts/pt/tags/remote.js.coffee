@@ -23,7 +23,7 @@ pt.tags.push
                 when 278
                   url = xhr.getResponseHeader('location')
                   addHtml("Redirecting you to #{url}")
-                  window.location = url
+                  Turbolinks.visit url
                 else
                   addHtml(html) unless attr.remote is 'synced'
                   $el.removeData 'ptRemoteSending'

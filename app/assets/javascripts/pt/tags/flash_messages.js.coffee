@@ -7,9 +7,20 @@ getAlertClass = (key) ->
     when 'alert' then 'alert-warning'
     when 'success' then 'alert-success'
 
+redirect_messages = false
+
+processLocalMessages = ->
+  $ptFlashContainer = $ '[pt-flash-messages]'
+  if redirect_messages = $.cookie 'redirect_messages'
+    $.removeCookie 'redirect_messages'
+    for type, message of $.parseJSON redirect_messages
+      $.jGrowl message, { theme: getAlertClass(type), sticky: true }
+
 processMessages = (event, xhr, settings) ->
+  return $.cookie 'redirect_messages', xhr.getResponseHeader('X-Flash-Messages') if xhr.status is 278
   $ptFlashContainer = $ '[pt-flash-messages]'
   messages = $.parseJSON xhr.getResponseHeader('X-Flash-Messages')
+
 
   for type, message of messages
     $.jGrowl message, { theme: getAlertClass(type) }
@@ -43,7 +54,14 @@ pt.tags.push
     event: 'onload'
     callback: ->
       addFlashClasses()
+      processLocalMessages()
       $(document).ajaxComplete processMessages
   ready:
     event: 'bind'
     callback: -> addFlashClasses()
+
+  'page:load':
+    event: 'bind'
+    callback: ->
+      addFlashClasses()
+      processLocalMessages()
