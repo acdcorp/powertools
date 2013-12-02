@@ -17,7 +17,10 @@ processLocalMessages = ->
       $.jGrowl message, { theme: getAlertClass(type) }
 
 processMessages = (event, xhr, settings) ->
+  # Turbolinks redirect
   return $.cookie 'redirect_messages', xhr.getResponseHeader('X-Flash-Messages') if xhr.status is 278
+  #####################
+
   $ptFlashContainer = $ '[pt-flash-messages]'
   messages = $.parseJSON xhr.getResponseHeader('X-Flash-Messages')
 
