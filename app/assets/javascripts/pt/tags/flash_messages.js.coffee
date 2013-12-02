@@ -14,7 +14,7 @@ processLocalMessages = ->
   if redirect_messages = $.cookie 'redirect_messages'
     $.removeCookie 'redirect_messages'
     for type, message of $.parseJSON redirect_messages
-      $.jGrowl message, { theme: getAlertClass(type), sticky: true }
+      $.jGrowl message, { theme: getAlertClass(type) }
 
 processMessages = (event, xhr, settings) ->
   return $.cookie 'redirect_messages', xhr.getResponseHeader('X-Flash-Messages') if xhr.status is 278
