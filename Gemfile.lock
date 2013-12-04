@@ -12,6 +12,7 @@ PATH
       less-rails-fontawesome (~> 0.5.1)
       mab
       rails (>= 4.0.0)
+      scoped_search
       simple_form (>= 3.0.0)
       therubyracer
 
@@ -78,7 +79,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.25)
+    mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.8.2)
     polyglot (0.3.3)
@@ -111,7 +112,9 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    simple_form (3.0.0)
+    scoped_search (2.6.0)
+      activerecord (>= 2.1.0)
+    simple_form (3.0.1)
       actionpack (>= 4.0.0, < 4.1)
       activemodel (>= 4.0.0, < 4.1)
     sprockets (2.10.1)
