@@ -9,7 +9,7 @@ PATH
       less
       less-rails
       less-rails-bootstrap (>= 3.0.5)
-      less-rails-fontawesome (>= 0.5.1)
+      less-rails-fontawesome (~> 0.5.1)
       mab
       rails (>= 4.0.0)
       simple_form (>= 3.0.0)
@@ -114,7 +114,7 @@ GEM
     simple_form (3.0.0)
       actionpack (>= 4.0.0, < 4.1)
       activemodel (>= 4.0.0, < 4.1)
-    sprockets (2.10.0)
+    sprockets (2.10.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
