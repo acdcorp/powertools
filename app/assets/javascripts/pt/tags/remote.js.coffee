@@ -11,14 +11,18 @@ pt.tags.push
         $el.data 'ptRemoteSending', true
 
         addHtml = (html) ->
-          $el.parent().html html
+          if attr.remoteContainer
+            $("##{attr.remoteContainer}").html html
+          else
+            $el.parent().html html
           $(document).trigger 'page:change'
 
         $(this).ajaxSubmit
           beforeSubmit: ->
             $('.form-actions',$el).html('Saving...')
           success: (html, responseText, xhr) ->
-            unless (type = xhr.getResponseHeader("content-type").match('text/javascript')) && type.length
+            content_type = xhr.getResponseHeader("content-type")
+            unless (content_type && content_type.match('text/javascript')) && type.length
               switch xhr.status
                 when 278
                   url = xhr.getResponseHeader('location')

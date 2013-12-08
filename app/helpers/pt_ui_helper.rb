@@ -54,7 +54,63 @@ module PtUiHelper
             end
             div class: "widget-content #{options.key?(:no_padding) ? 'no-padding' : ''}" do
               div class: 'row-fluid' do
-                helper.capture_haml 'div', {}, &block
+                html helper.capture_haml 'div', {}, &block
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def pt_wizard_for form_object, options = {}, &block
+    options[:html] ||= { class: 'form-horizontal', 'pt-remote' => true }
+
+    content       = OpenStruct.new
+    content.step  = 1
+    content.steps = []
+
+    sf = simple_form_for form_object, html: { class: 'form-horizontal', 'pt-remote' => true } do |form|
+      yield form, content
+    end
+
+    options[:html][:action] = sf.scan(/<form.+?action="(.+?)"/).first.first
+    options[:html][:method] = sf.scan(/<form.+?method="(.+?)"/).first.first
+
+    html do
+      div class: 'col-md-12' do
+        div class: 'form-horizontal' do
+          div id: 'form_wizard', class: 'widget box' do
+            # Add a title if we have one
+            if options[:title]
+              div class: 'widget-header' do
+                h4 do
+                  i class: 'icon-reorder' do
+                    text options[:title]
+                    span(class: 'step-title') { "Step #{content.step} of #{content.steps.length}" }
+                  end
+                end
+              end
+            end
+            ############################
+            div class: 'wizard-content' do
+              div class: 'form-wizard' do
+                form options[:html] do
+                  div class: 'form-body' do
+                    div class: 'tab-content' do
+                      text! content.body
+                    end
+                  end
+                  div class: 'form-actions fluid' do
+                    div class: 'row' do
+                      div class: 'col-md-12' do
+                        div class: 'col-md-offset-2 col-md-10' do
+                          text! content.footer
+                        end
+                      end
+                    end
+                  end
+                end
               end
             end
           end
