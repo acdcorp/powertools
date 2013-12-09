@@ -99,7 +99,7 @@ module PtUiHelper
                   div class: 'form-body' do
                     ul class: 'nav nav-pills nav-justified steps' do
                       content.steps.each_with_index do |step, index|
-                        li class: ('active' if index+1 == active) do
+                        li class: ('active' if index+1 == content.step) do
                           div class: 'step' do
                             span class: 'number' do
                               text index + 1
@@ -113,7 +113,7 @@ module PtUiHelper
                       end
                     end
                     div id: 'bar',  class: 'progress progress-stripped active', role: 'progressbar' do
-                      div class: 'progress-bar progress-bar-success', style: "width: #{((active.to_f-1)/steps.length.to_f*100).to_i}%"
+                      div class: 'progress-bar progress-bar-success', style: "width: #{((content.step.to_f-1)/steps.length.to_f*100).to_i}%"
                     end
                     div class: 'tab-content' do
                       text! content.body
