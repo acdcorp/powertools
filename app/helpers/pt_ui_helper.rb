@@ -113,7 +113,7 @@ module PtUiHelper
                       end
                     end
                     div id: 'bar',  class: 'progress progress-stripped active', role: 'progressbar' do
-                      div class: 'progress-bar progress-bar-success', style: "width: #{((content.step.to_f-1)/steps.length.to_f*100).to_i}%"
+                      div class: 'progress-bar progress-bar-success', style: "width: #{((content.step.to_f-1)/content.steps.length.to_f*100).to_i}%"
                     end
                     div class: 'tab-content' do
                       text! content.body
