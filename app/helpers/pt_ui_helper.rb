@@ -97,6 +97,24 @@ module PtUiHelper
               div class: 'form-wizard' do
                 form options[:html] do
                   div class: 'form-body' do
+                    ul class: 'nav nav-pills nav-justified steps' do
+                      content.steps.each_with_index do |step, index|
+                        li class: ('active' if index+1 == active) do
+                          div class: 'step' do
+                            span class: 'number' do
+                              text index + 1
+                            end
+                            span class: 'desc' do
+                              i class: 'icon-ok'
+                            end
+                          end
+                          text step
+                        end
+                      end
+                    end
+                    div id: 'bar',  class: 'progress progress-stripped active', role: 'progressbar' do
+                      div class: 'progress-bar progress-bar-success', style: "width: #{((active.to_f-1)/steps.length.to_f*100).to_i}%"
+                    end
                     div class: 'tab-content' do
                       text! content.body
                     end
