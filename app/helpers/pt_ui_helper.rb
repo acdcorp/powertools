@@ -48,13 +48,13 @@ module PtUiHelper
                   if options.key? :icon
                     i class: "icon-#{options[:icon]}"
                   end
-                  text options[:header]
+                  text! options[:header]
                 end
               end
             end
             div class: "widget-content #{options.key?(:no_padding) ? 'no-padding' : ''}" do
               div class: 'row-fluid' do
-                html helper.capture_haml 'div', {}, &block
+                text! helper.capture_haml 'div', {}, &block
               end
             end
           end
@@ -95,29 +95,30 @@ module PtUiHelper
             ############################
             div class: 'wizard-content' do
               div class: 'form-wizard' do
-                form options[:html] do
-                  div class: 'form-body' do
-                    ul class: 'nav nav-pills nav-justified steps' do
-                      content.steps.each_with_index do |step, index|
-                        li class: ('active' if index+1 == content.step) do
-                          div class: 'step' do
-                            span class: 'number' do
-                              text index + 1
-                            end
-                            span class: 'desc' do
-                              i class: 'icon-ok'
-                            end
+                div class: 'form-body' do
+                  ul class: 'nav nav-pills nav-justified steps' do
+                    content.steps.each_with_index do |step, index|
+                      li class: ('active' if index+1 == content.step) do
+                        div class: 'step' do
+                          span class: 'number' do
+                            text index + 1
                           end
-                          text step
+                          span class: 'desc' do
+                            i class: 'icon-ok'
+                          end
                         end
+                        text step
                       end
                     end
-                    div id: 'bar',  class: 'progress progress-stripped active', role: 'progressbar' do
-                      div class: 'progress-bar progress-bar-success', style: "width: #{((content.step.to_f-1)/content.steps.length.to_f*100).to_i}%"
-                    end
-                    div class: 'tab-content' do
-                      text! content.body
-                    end
+                  end
+                  div id: 'bar',  class: 'progress progress-stripped active', role: 'progressbar' do
+                    div class: 'progress-bar progress-bar-success', style: "width: #{((content.step.to_f-1)/content.steps.length.to_f*100).to_i}%"
+                  end
+                end
+                text! content.prepend
+                form options[:html] do
+                  div class: 'tab-content' do
+                    text! content.body
                   end
                   div class: 'form-actions fluid' do
                     div class: 'row' do
