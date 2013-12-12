@@ -217,7 +217,7 @@ class Powertools::Form
     end
 
     def input_as name, &block
-      names = name.split '.'
+      names = name.to_s.split '.'
       if names.count < 2
         self.model_name.to_s.underscore.to_sym
         inputs_as = (store[self.model_name.to_s.underscore.to_sym][:inputs_as] ||= {})
