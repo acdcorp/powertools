@@ -6,6 +6,7 @@
 #= require pt/jGrowl/jquery.jgrowl
 #= require pt/jquery_cookie/jquery.cookie
 #= require pt/bootstrap-datetimepicker
+#= require pt/jquery_cc_validator/jquery.creditCardValidator
 # require twitter/bootstrap
 #= require pt/attr
 #= require pt/plugin/sugarjs/v1.4.0

@@ -74,7 +74,7 @@ class Powertools::Form
       if current_store.key? :inputs_as
         main_object = self
         current_store[:inputs_as].each do |field, block|
-          if current_store[:type] == :model
+          if current_store[:type] == :model or current_store[:type] == :attr_accessor
             self.metaclass.send(:define_method, "#{field}_input") do
               type = main_object.instance_eval(&block)
               Powertools::FormInput.new type if type
@@ -106,11 +106,12 @@ class Powertools::Form
     @options.merge! options.extract_options!
     @params  = params
 
-    raise "No current_user passed into form options" unless current_user.present?
-
-    run_hook :before_submit
     # Set all the values
     set_params @params
+
+    run_hook :before_submit
+
+    raise "No current_user passed into form options" unless current_user.present?
 
     # Check if everything in the store is valid
     is_valid = true
@@ -219,8 +220,12 @@ class Powertools::Form
     def input_as name, &block
       names = name.to_s.split '.'
       if names.count < 2
-        self.model_name.to_s.underscore.to_sym
-        inputs_as = (store[self.model_name.to_s.underscore.to_sym][:inputs_as] ||= {})
+        current_store = store[self.model_name.to_s.underscore.to_sym]
+
+        unless current_store
+          current_store = store[:attr_accessor]
+        end
+        inputs_as = (current_store[:inputs_as] ||= {})
         inputs_as[name.to_sym] = block
       else
         form_name = names.first.to_sym

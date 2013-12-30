@@ -9,4 +9,5 @@ group :vendor, assets_path: 'assets' do
   asset 'bootstrap'
   asset 'jGrowl', 'git@github.com:stanlemon/jGrowl.git'
   asset 'jquery_cookie', 'git@github.com:carhartl/jquery-cookie.git'
+  asset 'jquery_cc_validator', 'git@github.com:PawelDecowski/jQuery-CreditCardValidator.git'
 end

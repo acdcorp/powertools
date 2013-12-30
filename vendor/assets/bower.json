@@ -10,6 +10,7 @@
     "html5shiv": "latest",
     "bootstrap": "latest",
     "jGrowl": "git@github.com:stanlemon/jGrowl.git",
-    "jquery_cookie": "git@github.com:carhartl/jquery-cookie.git"
+    "jquery_cookie": "git@github.com:carhartl/jquery-cookie.git",
+    "jquery_cc_validator": "git@github.com:PawelDecowski/jQuery-CreditCardValidator.git"
   }
 }
