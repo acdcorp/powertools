@@ -19,6 +19,8 @@ class String
 end
 
 require 'hooks'
+require 'reform'
+require 'apotomo'
 require 'powertools/engine'
 require 'powertools/nav'
 require 'powertools/respond_to'
