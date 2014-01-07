@@ -4,11 +4,8 @@
     "jquery": "1.10.2",
     "breakpoints": "git@github.com:xoxco/breakpoints.git",
     "slimscroll": "git@github.com:rochal/jQuery-slimScroll.git",
-    "turbolinks": "git@github.com:rails/turbolinks.git",
-    "jquery_turbolinks": "git@github.com:kossnocorp/jquery.turbolinks.git",
     "jquery_ujs": "git@github.com:rails/jquery-ujs.git",
     "html5shiv": "latest",
-    "bootstrap": "latest",
     "jGrowl": "git@github.com:stanlemon/jGrowl.git",
     "jquery_cookie": "git@github.com:carhartl/jquery-cookie.git",
     "jquery_cc_validator": "git@github.com:PawelDecowski/jQuery-CreditCardValidator.git"

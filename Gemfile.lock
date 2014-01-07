@@ -9,6 +9,7 @@ PATH
       jquery-rails
       less
       less-rails
+      less-rails-bootstrap
       less-rails-fontawesome (~> 0.5.1)
       mab
       rails (>= 4.0.0)
@@ -16,7 +17,6 @@ PATH
       scoped_search
       simple_form (>= 3.0.0)
       therubyracer
-      twitter-bootstrap-rails
 
 GEM
   remote: https://rubygems.org/
@@ -78,6 +78,8 @@ GEM
     less-rails (2.4.2)
       actionpack (>= 3.1)
       less (~> 2.4.0)
+    less-rails-bootstrap (3.0.6)
+      less-rails (~> 2.4.2)
     less-rails-fontawesome (0.5.1)
       less-rails (>= 2.1.7)
       railties (>= 3.1.1)
@@ -154,11 +156,6 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    twitter-bootstrap-rails (2.2.8)
-      actionpack (>= 3.1)
-      execjs
-      rails (>= 3.1)
-      railties (>= 3.1)
     tzinfo (0.3.38)
 
 PLATFORMS

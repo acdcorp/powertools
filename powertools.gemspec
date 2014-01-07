@@ -30,8 +30,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'reform'
   s.add_dependency 'apotomo'
 
-  s.add_dependency 'twitter-bootstrap-rails'
-  # s.add_dependency 'less-rails-bootstrap'
+  # s.add_dependency 'twitter-bootstrap-rails'
+  s.add_dependency 'less-rails-bootstrap'
   # s.add_dependency 'less-rails-fontawesome'
 
   s.add_development_dependency "sqlite3"

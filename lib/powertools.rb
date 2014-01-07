@@ -38,7 +38,7 @@ require 'powertools/search'
 require 'powertools/generators/history_tracker_generator'
 require 'simple_form'
 require 'less-rails'
-require 'twitter-bootstrap-rails'
+require 'less-rails-bootstrap'
 require 'less-rails-fontawesome'
 require 'mab'
 
