@@ -67,4 +67,10 @@ module PtHelper
     todays_year = Date.today.year + 2; (0..100).map { todays_year -= 1 }
   end
 
+  def present(object, klass = nil)
+    klass ||= "#{object.class}Presenter".constantize
+    presenter = klass.new(object, self)
+    yield presenter if block_given?
+    presenter
+  end
 end
