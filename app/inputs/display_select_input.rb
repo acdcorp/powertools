@@ -6,7 +6,14 @@ class DisplaySelectInput < SimpleForm::Inputs::Base
     display = object.send(attribute_name)
 
     if input_options.key? :label_method
-      output = input_options[:label_method].call display
+      if display.blank?
+        output = ""
+      elsif input_options.key?(:collection) and input_options[:collection].class.to_s.include?('ActiveRecord')
+        obj = input_options[:collection].select { |obj| obj.id==display }.first
+        output = input_options[:label_method].call obj
+      else
+        output = input_options[:label_method].call display
+      end
     else
       rel = attribute_name.to_s.gsub(/_id$/, '')
       if object.respond_to?(rel) and object.send(rel).respond_to? :name
