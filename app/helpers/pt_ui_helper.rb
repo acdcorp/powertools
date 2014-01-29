@@ -138,3 +138,5 @@ module PtUiHelper
     end
   end
 end
+
+ActionView::Base.send :include, PtUiHelper

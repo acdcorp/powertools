@@ -6,5 +6,9 @@ module Powertools
       app.config.autoload_paths += %W(#{app.config.root}/app/presenters)
       app.config.assets.paths << "#{Rails.root}/app/assets/plugins"
     end
+
+    initializer "powertools.unrestricted_attributes" do
+      ActiveRecord::Base.send :include, Powertools::UnrestrictedAttributes
+    end
   end
 end

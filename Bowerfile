@@ -4,8 +4,10 @@ group :vendor, assets_path: 'assets' do
   asset 'slimscroll', 'git@github.com:rochal/jQuery-slimScroll.git'
   asset 'jquery_ujs', 'git@github.com:rails/jquery-ujs.git'
   asset 'html5shiv'
-  asset 'better-dom'
+  asset 'better-dom', 'git@github.com:chemerisuk/better-dom.git'
   asset 'jGrowl', 'git@github.com:stanlemon/jGrowl.git'
   asset 'jquery_cookie', 'git@github.com:carhartl/jquery-cookie.git'
   asset 'jquery_cc_validator', 'git@github.com:PawelDecowski/jQuery-CreditCardValidator.git'
+  asset 'bootbox'
+  asset 'sugar'
 end

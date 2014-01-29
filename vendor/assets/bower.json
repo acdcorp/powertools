@@ -6,9 +6,11 @@
     "slimscroll": "git@github.com:rochal/jQuery-slimScroll.git",
     "jquery_ujs": "git@github.com:rails/jquery-ujs.git",
     "html5shiv": "latest",
-    "better-dom": "latest",
+    "better-dom": "git@github.com:chemerisuk/better-dom.git",
     "jGrowl": "git@github.com:stanlemon/jGrowl.git",
     "jquery_cookie": "git@github.com:carhartl/jquery-cookie.git",
-    "jquery_cc_validator": "git@github.com:PawelDecowski/jQuery-CreditCardValidator.git"
+    "jquery_cc_validator": "git@github.com:PawelDecowski/jQuery-CreditCardValidator.git",
+    "bootbox": "latest",
+    "sugar": "latest"
   }
 }
