@@ -10,7 +10,11 @@ class DisplaySelectInput < SimpleForm::Inputs::Base
         output = ""
       elsif input_options.key?(:collection) and input_options[:collection].class.to_s.include?('ActiveRecord')
         obj = input_options[:collection].select { |obj| obj.id==display }.first
-        output = input_options[:label_method].call obj
+        if input_options[:label_method].is_a?Symbol
+          output = obj.send(input_options[:label_method])
+        else
+          output = input_options[:label_method].call obj
+        end
       else
         output = input_options[:label_method].call display
       end
