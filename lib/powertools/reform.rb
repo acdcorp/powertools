@@ -4,10 +4,63 @@ module Reform
     include Reform::Form::ActiveModel
     include Reform::Form::ActiveModel::FormBuilderMethods
 
+    module ValidateMethods # TODO: introduce Base module.
+      def validate(params)
+        # here it would be cool to have a validator object containing the validation rules representer-like and then pass it the formed model.
+        from_hash(params)
+
+        is_valid = true
+        is_valid &= valid?
+        is_valid &= validate_for @fields, params, is_valid
+        is_valid
+      end
+
+    private
+
+      def validate_for fields, params, is_valid
+        fields.to_h.each do |column, form|
+          if params && form.respond_to?('valid?')
+            # lets save the data to the nested form
+            if (nested_params = params[column])
+              nested_params = Hash[nested_params.map { |k, v| [k.gsub(/_attributes/, '').to_sym, v] }]
+
+              current_params = nested_params.reject { |key, value| value.kind_of?(Hash) ? true : false }
+
+              if current_params.any?
+                unless current_params.length == 1 && current_params.first.first == :id
+                  form.from_hash params[column]
+                  is_valid &= form.valid?
+                  errors.merge!(form.errors, column)
+                end
+              else
+                is_valid &= validate_for form.send(:fields), nested_params, is_valid
+              end
+            end
+          end
+        end
+
+        is_valid
+      end
+    end
+
     def save_as current_user
-      save
-      add_creator_and_updater_for model, current_user
-      model.save!
+      save do |data, nested|
+        model.attributes = append_attributes nested
+        add_creator_and_updater_for model, current_user, nested
+        model.save!
+      end
+    end
+
+    def append_attributes params
+      params.clone.each do |key, value|
+        if value.kind_of? Hash
+          new_attributes = append_attributes(params[key])
+          params["#{key}_attributes"] = new_attributes unless new_attributes.empty?
+          params.delete key
+        end
+      end
+
+      params
     end
 
     def add_creator_and_updater_for(model, current_user = nil, current_params = @params)
