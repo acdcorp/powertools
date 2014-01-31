@@ -4,6 +4,8 @@ module Reform
     include Reform::Form::ActiveModel
     include Reform::Form::ActiveModel::FormBuilderMethods
 
+    property :id
+
     module ValidateMethods # TODO: introduce Base module.
       def validate(params)
         # here it would be cool to have a validator object containing the validation rules representer-like and then pass it the formed model.
@@ -43,11 +45,17 @@ module Reform
       end
     end
 
-    def save_as current_user
+    def save_as current_user, &block
+      form = self
+
       save do |data, nested|
+        nested = nested.with_indifferent_access
+
+        block.call nested, data if block
         model.attributes = append_attributes nested
         add_creator_and_updater_for model, current_user, nested
         model.save!
+        form.id = model.id unless form.id
       end
     end
 
@@ -55,8 +63,10 @@ module Reform
       params.clone.each do |key, value|
         if value.kind_of? Hash
           new_attributes = append_attributes(params[key])
-          params["#{key}_attributes"] = new_attributes unless new_attributes.empty?
-          params.delete key
+          unless key.include? '_attributes'
+            params["#{key}_attributes"] = new_attributes unless new_attributes.empty?
+            params.delete key
+          end
         end
       end
 
