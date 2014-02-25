@@ -19,7 +19,9 @@ class String
 end
 
 require 'hooks'
-require 'powertools/engine'
+if defined? Rails
+  require 'powertools/engine'
+end
 require 'powertools/nav'
 require 'powertools/respond_to'
 require 'powertools/current_user'
