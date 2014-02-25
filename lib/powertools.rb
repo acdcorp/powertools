@@ -19,18 +19,17 @@ class String
 end
 
 require 'hooks'
-if defined? Rails
-  require 'powertools/engine'
-  require 'powertools/form'
-  require 'powertools/form_input'
-  require 'powertools/nav'
-  require 'powertools/respond_to'
-  require 'powertools/current_user'
-  require 'powertools/who_did_it'
-  require 'powertools/ajax_flash'
-  require 'powertools/unrestricted_attributes'
-  require 'powertools/generators/history_tracker_generator'
-end
+require 'powertools/engine'
+require 'powertools/form'
+require 'powertools/form_input'
+require 'powertools/nav'
+require 'powertools/respond_to'
+require 'powertools/current_user'
+require 'powertools/who_did_it'
+require 'powertools/ajax_flash'
+require 'powertools/unrestricted_attributes'
+require 'powertools/generators/history_tracker_generator'
 require 'powertools/history_tracker'
+
 module Powertools
 end
